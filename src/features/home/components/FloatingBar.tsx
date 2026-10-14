@@ -1,7 +1,7 @@
-import { ScanBarcode } from "iconsax-react";
 import Image from "next/image";
 import type { ServiceTile } from "@/entities/home/model/types";
 import { safeAssetSrc, safeHref } from "@/shared/lib/url";
+import { ScanBarcodeIcon } from "@/shared/ui/ScanBarcodeIcon";
 
 export function FloatingBar({ tiles = [], loading }: { tiles?: ServiceTile[]; loading?: boolean }) {
   if (loading) {
@@ -20,7 +20,7 @@ export function FloatingBar({ tiles = [], loading }: { tiles?: ServiceTile[]; lo
             className="shahrzad-floating-bar__center absolute left-1/2 top-1/2 flex h-[70px] w-[70px] -translate-x-1/2 -translate-y-1/2 items-center justify-center"
             style={{ backgroundColor: "#eaf2fc", color: "#307fe2" }}
           >
-            <ScanBarcode size={32} variant="Bulk" />
+            <ScanBarcodeIcon size={32} color="#307fe2" />
           </a>
         </div>
       </nav>
@@ -55,7 +55,7 @@ export function FloatingBar({ tiles = [], loading }: { tiles?: ServiceTile[]; lo
           className="shahrzad-floating-bar__center absolute left-1/2 top-1/2 flex h-[70px] w-[70px] -translate-x-1/2 -translate-y-1/2 items-center justify-center"
           style={{ backgroundColor: "#eaf2fc", color: "#307fe2" }}
         >
-          <ScanBarcode size={32} variant="Bulk" />
+          <ScanBarcodeIcon size={32} color="#307fe2" />
         </a>
       </div>
     </nav>

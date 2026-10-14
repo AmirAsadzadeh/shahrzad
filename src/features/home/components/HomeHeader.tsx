@@ -2,12 +2,13 @@
 
 import { Dropdown, Spin } from "antd";
 import type { MenuProps } from "antd";
-import { ArrowLeft2, Logout, Notification, ProfileCircle, ScanBarcode, Setting2 } from "iconsax-react";
+import { ArrowLeft2, Logout, Notification, ProfileCircle, Setting2 } from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { logout as logoutRequest } from "@/features/auth/public";
 import { useAuthStore } from "@/features/auth/public";
+import { ScanBarcodeIcon } from "@/shared/ui/ScanBarcodeIcon";
 
 type Props = {
   isCompact: boolean;
@@ -124,7 +125,7 @@ export function HomeHeader({ isCompact, loading = false }: Props) {
           </Link>
           {!isCompact && (
             <button type="button" disabled className="absolute left-5 top-7 z-10 flex h-6 w-6 items-center justify-center text-white" aria-label="اسکن">
-              <ScanBarcode size={24} color="#fff" />
+              <ScanBarcodeIcon size={24} color="#fff" />
             </button>
           )}
           <button
