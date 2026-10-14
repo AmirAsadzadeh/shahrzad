@@ -35,7 +35,7 @@ export function BannerCarousel({ banners = [], loading, position }: Props) {
     <Carousel
       ariaLabel="بنرهای شهرزاد"
       breakpoints={{
-        768: {
+        900: {
           slidesPerView: 2,
           spaceBetween: 24
         }

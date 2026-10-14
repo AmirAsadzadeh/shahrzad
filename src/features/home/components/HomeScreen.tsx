@@ -19,7 +19,7 @@ export function HomeScreen() {
   const { authenticated, loading: sessionLoading } = useAuthSession();
   const { data, loading, error, refresh } = useHomeData(authenticated);
   const [isHeaderCompact, setIsHeaderCompact] = useState(false);
-  const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const [isDesktopFooterVisible, setIsDesktopFooterVisible] = useState(false);
   const contentScrollRef = useRef<HTMLDivElement>(null);
 
   const scrollToTop = () => {
@@ -60,18 +60,31 @@ export function HomeScreen() {
         return wasCompact;
       });
     };
+    const updateDesktopFooter = () => {
+      if (mobileQuery.matches) {
+        setIsDesktopFooterVisible(false);
+        return;
+      }
+
+      const remainingScroll =
+        document.documentElement.scrollHeight - window.innerHeight - window.scrollY;
+      setIsDesktopFooterVisible(remainingScroll <= 2);
+    };
     const updateFromWindow = () => {
-      if (!mobileQuery.matches) updateHeaderState(window.scrollY);
+      if (mobileQuery.matches) return;
+
+      setIsHeaderCompact(false);
+      updateDesktopFooter();
     };
     const updateFromContent = () => {
-      if (mobileQuery.matches && contentScroller) {
-        updateHeaderState(contentScroller.scrollTop);
-        const remainingScroll = contentScroller.scrollHeight - contentScroller.clientHeight - contentScroller.scrollTop;
-        setIsFooterVisible(remainingScroll <= 2);
+      if (!mobileQuery.matches || !contentScroller) {
+        return;
       }
+      updateHeaderState(contentScroller.scrollTop);
     };
     const handleViewportChange = () => {
       setIsHeaderCompact(false);
+      setIsDesktopFooterVisible(false);
       updateFromWindow();
       updateFromContent();
     };
@@ -79,11 +92,13 @@ export function HomeScreen() {
     updateFromWindow();
     updateFromContent();
     window.addEventListener("scroll", updateFromWindow, { passive: true });
+    window.addEventListener("resize", handleViewportChange, { passive: true });
     contentScroller?.addEventListener("scroll", updateFromContent, { passive: true });
     mobileQuery.addEventListener("change", handleViewportChange);
 
     return () => {
       window.removeEventListener("scroll", updateFromWindow);
+      window.removeEventListener("resize", handleViewportChange);
       contentScroller?.removeEventListener("scroll", updateFromContent);
       mobileQuery.removeEventListener("change", handleViewportChange);
     };
@@ -109,13 +124,13 @@ export function HomeScreen() {
             isHeaderCompact ? "-mb-18.5 -translate-y-18.5" : ""
           }`}
         >
-          <section className="fit-width relative z-20 md:-mt-16 md:px-6">
-            <div className="min-h-160 rounded-t-[22px] bg-white p-0 md:px-4 md:pb-14 md:pt-4">
-              <div className="mb-7 rounded-xl bg-white md:mb-8">
+          <section className="fit-width relative z-20 md:-mt-12 md:max-w-225 md:px-0">
+            <div className="shahrzad-home-panel min-h-160 rounded-t-[22px] bg-white p-0 md:px-3 md:pb-14 md:pt-3">
+              <div className="mb-7 rounded-xl bg-white md:mb-4">
                 <BannerCarousel banners={data?.banners} loading={loading} position="top" />
               </div>
 
-              <div className="mb-4 flex items-center gap-3 text-neutral-900 md:mb-8">
+              <div className="mb-4 flex items-center gap-3 text-neutral-900 md:mb-4">
                 <h1 className="text-sm font-bold md:text-base">خدمات شهرزاد</h1>
                 <span className="h-px flex-1 bg-neutral-200" />
                 <Button
@@ -159,51 +174,9 @@ export function HomeScreen() {
             </div>
           </section>
 
-          <div aria-hidden="true" className="mt-9 h-60.5 md:hidden" />
-
-          <footer className="relative -mx-7 mt-9 hidden w-[calc(100%+56px)] overflow-hidden bg-white pt-0 md:mx-0 md:mt-4 md:block md:w-auto md:pt-14">
-            <div className="mx-auto flex max-w-4xl flex-col items-center px-0">
-              <div className="relative aspect-[760/220] w-full max-w-none md:max-w-190">
-                <Image
-                  src="https://web.shahrzadcity.ir/assets/footer-background-CI-D7Rh8.svg"
-                  fill
-                  sizes="(max-width: 767px) 100vw, 760px"
-                  alt=""
-                  unoptimized
-                  className="object-contain"
-                />
-              </div>
-            </div>
-            <div className="hidden bg-shahrzad-footer-deep text-white md:block">
-              <nav className="fit-width flex h-24 items-center justify-center gap-16 text-sm font-bold">
-                <Link href="/about-shahrzad" className="text-white!">
-                  درباره شهرزاد
-                </Link>
-                <Link href="/privacy" className="text-white!">
-                  قوانین سایت
-                </Link>
-                <Link href="https://shahrzadcity.ir/contact" className="text-white!">
-                  تماس با ما
-                </Link>
-                <Link href="/faq" className="text-white!">
-                  پرسش های متداول
-                </Link>
-                <Link href="https://shahrzadcity.ir/download-app" className="text-white!">
-                  اپلیکیشن موبایل
-                </Link>
-              </nav>
-            </div>
-          </footer>
-        </div>
-
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-1000 h-60.5 overflow-hidden will-change-[transform,opacity] transition-transform duration-200 md:hidden"
-          style={{ transform: `translateY(${isFooterVisible ? 0 : 242}px)` }}
-        >
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 w-full overflow-y-visible">
+          <div className="shahrzad-mobile-footer relative mt-9 h-60.5 overflow-hidden md:hidden">
             <Image
-              src="https://web.shahrzadcity.ir/assets/footer-background-CI-D7Rh8.svg"
+              src="/assets/footer-background.svg"
               width={375}
               height={232}
               sizes="100vw"
@@ -212,7 +185,47 @@ export function HomeScreen() {
               className="block h-auto w-full object-contain"
             />
           </div>
+
+          <div aria-hidden="true" className="hidden h-69.5 md:block" />
         </div>
+
+        <footer
+          aria-hidden={!isDesktopFooterVisible}
+          className={`shahrzad-desktop-footer pointer-events-none fixed inset-x-0 bottom-0 z-1000 hidden h-69.5 overflow-hidden md:block ${
+            isDesktopFooterVisible ? "pointer-events-auto opacity-100" : "opacity-0"
+          }`}
+          style={{ transform: `translateY(${isDesktopFooterVisible ? 0 : 300}px)` }}
+        >
+          <div className="pointer-events-none absolute inset-x-0 bottom-28.25 flex h-41.25 items-end justify-center overflow-y-visible">
+            <Image
+              src="/assets/footer-picture.svg"
+              width={609}
+              height={165}
+              sizes="609px"
+              alt=""
+              className="block h-41.25 w-152.25 object-contain"
+            />
+          </div>
+          <div className="absolute inset-x-0 bottom-0 bg-shahrzad-primary px-28 py-4 text-white">
+            <nav className="mx-auto flex h-20.25 max-w-264 items-center justify-center text-sm font-normal">
+              <Link href="/about-shahrzad" className="px-6 text-white!">
+                درباره شهرزاد
+              </Link>
+              <Link href="/privacy" className="px-6 text-white!">
+                قوانین سایت
+              </Link>
+              <Link href="https://shahrzadcity.ir/contact" className="px-6 text-white!">
+                تماس با ما
+              </Link>
+              <Link href="/faq" className="px-6 text-white!">
+                پرسش های متداول
+              </Link>
+              <Link href="https://shahrzadcity.ir/download-app" className="px-6 text-white!">
+                اپلیکیشن موبایل
+              </Link>
+            </nav>
+          </div>
+        </footer>
 
         <FloatingBar tiles={data?.floatingBarTiles} loading={loading} />
         <FeedbackModal />

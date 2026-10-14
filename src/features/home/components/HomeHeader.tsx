@@ -3,6 +3,7 @@
 import { Dropdown, Spin } from "antd";
 import type { MenuProps } from "antd";
 import {
+  ArrowDown2,
   ArrowLeft2,
   Logout,
   Notification,
@@ -61,21 +62,20 @@ export function HomeHeader({ isCompact, loading = false }: Props) {
 
   return (
     <header
-      className={`shahrzad-header-pattern relative z-10 h-50 shrink-0 overflow-visible px-0 text-white md:sticky md:top-0 md:h-47 md:overflow-hidden md:rounded-b-2xl md:px-6 ${
-        isCompact ? "md:z-30 md:h-50" : "md:z-10"
-      }`}
+      className="shahrzad-header-pattern relative z-10 h-50 shrink-0 overflow-visible px-0 text-white md:static md:h-34 md:overflow-visible md:rounded-b-2xl md:px-6"
     >
-      <div className="fit-width relative z-30 h-full">
-        <nav className="hidden h-24 items-center justify-between gap-6 text-base font-bold md:flex">
+      <div className="relative z-30 mx-auto h-full w-full max-w-300 md:h-18.5">
+        <nav className="hidden h-17.5 items-center justify-between gap-6 text-sm font-bold md:flex">
           <div className="flex items-center gap-12">
             <Link href="/home" aria-label="صفحه اصلی شهرزاد">
-              <span className="relative block h-11 w-29.5">
-                <Image src="/assets/logo.svg" fill sizes="118px" alt="شهرزاد" />
+              <span className="relative block h-14 w-24">
+                <Image src="/assets/logo.svg" fill sizes="96px" alt="شهرزاد" />
               </span>
             </Link>
-            <div className="flex items-center gap-12">
-              <Link className="text-white" href="/services">
+            <div className="flex items-center gap-8">
+              <Link className="flex items-center gap-2 text-white" href="/services">
                 خدمات شهرزاد
+                <ArrowDown2 size={16} />
               </Link>
               <Link className="text-white" href="/faq">
                 سوالات متداول
@@ -86,32 +86,40 @@ export function HomeHeader({ isCompact, loading = false }: Props) {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-row-reverse items-center gap-5.5">
             <Dropdown
               menu={{ items, onClick: handleMenuClick }}
               trigger={["click"]}
             >
               <button
                 type="button"
-                className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/25 bg-white/12 text-white backdrop-blur transition hover:bg-white/20"
+                className="shahrzad-wallet-surface flex h-12 w-12 items-center justify-center border border-white/20 p-2 text-white transition hover:bg-white/20"
                 aria-label="باز کردن منوی حساب کاربری"
               >
                 <ProfileCircle size={24} color="#fff" variant="Bold" />
               </button>
             </Dropdown>
             {loading ? (
-              <div className="flex h-12 items-center gap-6 rounded-xl border border-white/20 bg-white/10 px-4 text-base font-extrabold text-white backdrop-blur">
-                <span>کیف پول:</span>
+              <div className="shahrzad-desktop-wallet shahrzad-wallet-surface flex h-12 shrink-0 items-center justify-between border border-white/20 px-3 text-white">
+                <div className="text-base font-medium leading-6">
+                  <span>کیف پول:</span>
+                </div>
                 <Spin size="small" />
               </div>
             ) : (
               <Link
                 href="/wallet"
-                className="flex h-14 items-center gap-3 rounded-2xl border border-white/25 bg-white/12 px-5 text-base font-extrabold text-white backdrop-blur transition hover:bg-white/20"
+                className="shahrzad-desktop-wallet shahrzad-wallet-surface flex h-12 shrink-0 items-center justify-between border border-white/20 px-3 text-white transition hover:bg-white/20"
               >
-                <span>کیف پول:</span>
-                <span>مشاهده</span>
-                <ArrowLeft2 size={18} />
+                <div className="text-base font-medium leading-6">
+                  <span>کیف پول:</span>
+                </div>
+                <div className="flex items-center justify-end px-2 text-xs font-normal leading-[18.86px]">
+                  <span className="flex items-center justify-end text-xs font-bold leading-[18.86px]">
+                    مشاهده
+                    <ArrowLeft2 size={20} />
+                  </span>
+                </div>
               </Link>
             )}
           </div>
