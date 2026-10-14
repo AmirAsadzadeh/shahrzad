@@ -11,5 +11,6 @@ tsconfig.tsbuildinfo
 coverage
 test-results
 playwright-report
+.husky/_
 tmp/reference
 tmp/pdfs
