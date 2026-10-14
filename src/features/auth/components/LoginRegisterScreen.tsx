@@ -5,7 +5,9 @@ import type { TabsProps } from "antd";
 import { ArrowLeft, Building, Mobile, UserSquare } from "iconsax-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSWRConfig } from "swr";
 import { useState } from "react";
+import type { SessionResponse } from "@/entities/auth/model/types";
 import { requestOtp as sendOtpRequest, verifyOtp } from "@/features/auth/api/authApi";
 import { useAuthStore } from "@/features/auth/store/authStore";
 import { getErrorMessage } from "@/shared/api/errors";
@@ -16,6 +18,7 @@ export function LoginRegisterScreen() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = safeInternalPath(searchParams.get("redirectTo"));
+  const { mutate } = useSWRConfig();
   const setUser = useAuthStore((state) => state.setUser);
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -47,6 +50,11 @@ export function LoginRegisterScreen() {
     try {
       const response = await verifyOtp(phone, otp, nonce);
       setUser(response.user);
+      await mutate<SessionResponse>(
+        "/auth/session",
+        { authenticated: true, user: response.user },
+        { revalidate: false }
+      );
       router.replace(redirectTo);
     } catch (verifyError) {
       setError(getErrorMessage(verifyError, "کد وارد شده صحیح نیست."));
