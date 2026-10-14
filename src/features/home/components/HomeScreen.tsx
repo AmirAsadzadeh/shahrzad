@@ -2,25 +2,28 @@
 
 import { Alert, Button } from "antd";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useAuthSession } from "@/features/auth/public";
 import { FeedbackModal } from "@/features/feedback/public";
 import { BannerCarousel } from "@/features/home/components/BannerCarousel";
+import { DesktopFooter } from "@/features/home/components/DesktopFooter";
 import { FloatingBar } from "@/features/home/components/FloatingBar";
 import { HomeHeader } from "@/features/home/components/HomeHeader";
 import { ServiceTile } from "@/features/home/components/ServiceTile";
 import { ServiceTileSkeleton } from "@/features/home/components/ServiceTileSkeleton";
 import { useHomeData } from "@/features/home/hooks/useHomeData";
+import { useHomeViewport } from "@/features/home/hooks/useHomeViewport";
 
 export function HomeScreen() {
   const router = useRouter();
   const { authenticated, loading: sessionLoading } = useAuthSession();
   const { data, loading, error, refresh } = useHomeData(authenticated);
-  const [isHeaderCompact, setIsHeaderCompact] = useState(false);
-  const [isDesktopFooterVisible, setIsDesktopFooterVisible] = useState(false);
   const contentScrollRef = useRef<HTMLDivElement>(null);
+  const { isHeaderCompact, isDesktopFooterVisible } = useHomeViewport({
+    authenticated,
+    contentScrollRef
+  });
 
   const scrollToTop = () => {
     if (contentScrollRef.current) {
@@ -36,73 +39,6 @@ export function HomeScreen() {
       router.replace("/login-register?redirectTo=/home");
     }
   }, [authenticated, router, sessionLoading]);
-
-  useEffect(() => {
-    if (!authenticated) {
-      return;
-    }
-
-    const mobileQuery = window.matchMedia("(max-width: 767px)");
-    const contentScroller = contentScrollRef.current;
-    const updateHeaderState = (scrollPosition: number) => {
-      setIsHeaderCompact((wasCompact) => {
-        const compactThreshold = mobileQuery.matches ? 60 : 180;
-        const expandedThreshold = mobileQuery.matches ? 20 : 60;
-
-        if (!wasCompact && scrollPosition >= compactThreshold) {
-          return true;
-        }
-
-        if (wasCompact && scrollPosition <= expandedThreshold) {
-          return false;
-        }
-
-        return wasCompact;
-      });
-    };
-    const updateDesktopFooter = () => {
-      if (mobileQuery.matches) {
-        setIsDesktopFooterVisible(false);
-        return;
-      }
-
-      const remainingScroll =
-        document.documentElement.scrollHeight - window.innerHeight - window.scrollY;
-      setIsDesktopFooterVisible(remainingScroll <= 2);
-    };
-    const updateFromWindow = () => {
-      if (mobileQuery.matches) return;
-
-      setIsHeaderCompact(false);
-      updateDesktopFooter();
-    };
-    const updateFromContent = () => {
-      if (!mobileQuery.matches || !contentScroller) {
-        return;
-      }
-      updateHeaderState(contentScroller.scrollTop);
-    };
-    const handleViewportChange = () => {
-      setIsHeaderCompact(false);
-      setIsDesktopFooterVisible(false);
-      updateFromWindow();
-      updateFromContent();
-    };
-
-    updateFromWindow();
-    updateFromContent();
-    window.addEventListener("scroll", updateFromWindow, { passive: true });
-    window.addEventListener("resize", handleViewportChange, { passive: true });
-    contentScroller?.addEventListener("scroll", updateFromContent, { passive: true });
-    mobileQuery.addEventListener("change", handleViewportChange);
-
-    return () => {
-      window.removeEventListener("scroll", updateFromWindow);
-      window.removeEventListener("resize", handleViewportChange);
-      contentScroller?.removeEventListener("scroll", updateFromContent);
-      mobileQuery.removeEventListener("change", handleViewportChange);
-    };
-  }, [authenticated]);
 
   if (sessionLoading || !authenticated) {
     return null;
@@ -189,43 +125,7 @@ export function HomeScreen() {
           <div aria-hidden="true" className="hidden h-69.5 md:block" />
         </div>
 
-        <footer
-          aria-hidden={!isDesktopFooterVisible}
-          className={`shahrzad-desktop-footer pointer-events-none fixed inset-x-0 bottom-0 z-1000 hidden h-69.5 overflow-hidden md:block ${
-            isDesktopFooterVisible ? "pointer-events-auto opacity-100" : "opacity-0"
-          }`}
-          style={{ transform: `translateY(${isDesktopFooterVisible ? 0 : 300}px)` }}
-        >
-          <div className="pointer-events-none absolute inset-x-0 bottom-28.25 flex h-41.25 items-end justify-center overflow-y-visible">
-            <Image
-              src="/assets/footer-picture.svg"
-              width={609}
-              height={165}
-              sizes="609px"
-              alt=""
-              className="block h-41.25 w-152.25 object-contain"
-            />
-          </div>
-          <div className="absolute inset-x-0 bottom-0 bg-shahrzad-primary px-28 py-4 text-white">
-            <nav className="mx-auto flex h-20.25 max-w-264 items-center justify-center text-sm font-normal">
-              <Link href="/about-shahrzad" className="px-6 text-white!">
-                درباره شهرزاد
-              </Link>
-              <Link href="/privacy" className="px-6 text-white!">
-                قوانین سایت
-              </Link>
-              <Link href="https://shahrzadcity.ir/contact" className="px-6 text-white!">
-                تماس با ما
-              </Link>
-              <Link href="/faq" className="px-6 text-white!">
-                پرسش های متداول
-              </Link>
-              <Link href="https://shahrzadcity.ir/download-app" className="px-6 text-white!">
-                اپلیکیشن موبایل
-              </Link>
-            </nav>
-          </div>
-        </footer>
+        <DesktopFooter isVisible={isDesktopFooterVisible} />
 
         <FloatingBar tiles={data?.floatingBarTiles} loading={loading} />
         <FeedbackModal />
