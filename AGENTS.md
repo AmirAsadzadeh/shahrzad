@@ -15,13 +15,13 @@ Read [`docs/engineering-standards.md`](docs/engineering-standards.md) before cha
 The following rules are mandatory for this repository:
 
 1. Follow Next.js App Router conventions. Keep route files, layouts, loading UI, error boundaries, and not-found UI in `src/app`; keep reusable workflow code in `src/features`.
-2. Keep the dependency direction `app -> features -> entities/shared` and `server -> entities/shared`. Do not put business logic in route files, and do not import UI or browser code into `src/server`.
+2. Keep the dependency direction `app -> features -> entities/shared` and `mocks -> entities/shared`. Do not put business logic in route files, and do not import UI or browser components into `src/mocks`.
 3. Organize user-facing work by feature. New feature code belongs in `src/features/<featureName>/{api,components,hooks,model,store}` as needed. Add code to `src/shared` only when it is genuinely cross-feature.
 4. Do not use kebab-case as a repository naming rule. Use PascalCase for React component files and classes, camelCase for hooks, functions, API modules, stores, utilities, and multiword directories. Keep Next.js reserved files lowercase: `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx`, and `route.ts`.
 5. Use PascalCase for React components and types, `useX` for hooks, verb-first names for functions, `handleX` for event callbacks, and `is/has/should/can` prefixes for booleans.
 6. Keep shared domain models in `src/entities/<entity>/model`. Keep endpoint-specific request and response types beside their feature API client. Do not duplicate the same domain type across features.
-7. Keep mocked backend behavior behind typed feature API modules and the existing route-handler/server-mock structure. Do not add databases, queues, external providers, or backend infrastructure unless explicitly requested.
-8. Keep browser HTTP calls behind `src/shared/api/http.ts` and feature API modules. Do not call Axios, `fetch`, or route URLs directly from presentational components. Do not call an internal Route Handler from a Server Component when direct server data access is possible.
+7. Keep mocked backend behavior behind typed feature API modules and the MSW handlers under `src/mocks`. Do not add Next Route Handlers, databases, queues, external providers, or backend infrastructure unless explicitly requested.
+8. Keep browser HTTP calls behind `src/shared/api/http.ts` and feature API modules. Do not call Axios, `fetch`, or API URLs directly from presentational components. Define mock endpoints only in `src/mocks`; do not call mock handlers directly from UI code.
 9. Model loading, success, empty, and error states explicitly. Validate unknown API or route data at the boundary and map transport DTOs into domain or view models before rendering.
 10. Prefer Server Components. Add `"use client"` only for state, event handlers, effects, browser APIs, or client-only libraries. Keep client providers as deep in the tree as possible.
 11. Keep React components and hooks pure. Do not mutate props, state, or values after passing them to JSX. Call hooks only at the top level of React functions. Use effects only to synchronize with external systems.

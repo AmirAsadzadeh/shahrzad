@@ -4,7 +4,7 @@ import fileNameConvention from "./eslint-rules/file-name-convention.mjs";
 
 const eslintConfig = [
   {
-    ignores: ["tmp/**", "node_modules/**", ".next/**"]
+    ignores: ["tmp/**", "node_modules/**", ".next/**", "public/mockServiceWorker.js"]
   },
   ...nextVitals,
   ...nextTs,
@@ -19,6 +19,14 @@ const eslintConfig = [
     },
     rules: {
       "project/file-name-convention": "error"
+    }
+  },
+  {
+    files: ["src/mocks/**/*.{ts,tsx}", "src/app/MSWProvider.tsx", "src/instrumentation.node.ts"],
+    rules: {
+      // These files are copied from the interview's reference mock backend.
+      "project/file-name-convention": "off",
+      "react-hooks/set-state-in-effect": "off"
     }
   }
 ];

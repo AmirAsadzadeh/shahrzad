@@ -10,11 +10,11 @@ The goal is clear ownership and predictable dependencies, not ceremony.
 
 ```text
 src/
-  app/       Next.js routes, pages, route handlers, loading and error boundaries
+  app/       Next.js routes, pages, loading and error boundaries
   features/  user-facing capabilities such as auth, home, and feedback
   entities/  reusable domain models and domain-level types
   shared/    cross-feature UI, API transport, validation, and utilities
-  server/    server-only sessions, mock data, and server request helpers
+  mocks/     MSW handlers, deterministic fixtures, and mock-only state
 ```
 
 ### Dependency direction
@@ -25,7 +25,7 @@ Allowed direction:
 app -> features -> entities
 app -> shared
 features -> shared
-server -> entities/shared
+mocks -> entities/shared
 ```
 
 Rules:
@@ -34,7 +34,7 @@ Rules:
 - `src/features` owns a user-facing capability. A feature may contain its API client, hooks, components, state, and feature-specific models.
 - `src/entities` contains domain concepts that are shared by multiple features. Entity files must not import React, Next UI code, Axios, or browser-only APIs.
 - `src/shared` contains code that has no feature-specific meaning. Do not move code here just to avoid deciding where it belongs.
-- `src/server` is server-only. It must never be imported by client components or browser hooks.
+- `src/mocks` contains the mock transport boundary. It must not import UI components or feature internals.
 - A feature must not import another feature's private implementation. Cross-feature use must go through an explicit public contract such as `src/features/auth/public.ts`. If the behavior is not a stable feature API, move the smallest shared part to `shared` or `entities`.
 - Avoid barrel files such as `index.ts` unless they provide a stable, intentional public API. Direct imports make ownership easier to see.
 
@@ -45,7 +45,7 @@ Ask this question: “Would this code still make sense if the feature were remov
 - Yes, for a domain type: `entities`.
 - Yes, for a generic UI or utility: `shared`.
 - No, because it describes one user workflow: `features`.
-- No, because it talks to a server-only mock or cookie: `server`.
+- No, because it implements a mock API boundary or fixture: `mocks`.
 - It only connects a URL to a page: `app`.
 
 ## 2. File And Directory Naming
@@ -79,6 +79,7 @@ Rules:
 - Existing files may be migrated gradually. Do not rename unrelated files only to create metadata churn; rename a file when touching its feature or when the old name actively harms discoverability.
 - ESLint enforces these source filename rules through the repository rule `project/file-name-convention`. A change is not complete while `npm run lint:naming` fails.
 - Next.js URL route segments such as `about-shahrzad` and `login-register` are intentionally exempt because they are public URLs, not module filenames.
+- The interview-provided MSW fixture is an exact external contract. Preserve the upstream paths and filenames for `src/mocks/browser.ts`, `src/mocks/server.ts`, the copied `src/app/MSWProvider.tsx`, and the generated `public/mockServiceWorker.js`; these fixture files are excluded from repository naming/style checks. This exception applies only to those copied fixture files, not to new application code.
 
 ## 3. Function, Component, And Variable Naming
 
@@ -122,7 +123,7 @@ Rules:
 
 - Feature API request and response types live beside the feature API client when they are endpoint-specific.
 - Shared response envelopes live in `src/shared/api`.
-- Route handlers validate unknown input before treating it as a typed value.
+- MSW handlers validate unknown input before treating it as a typed value.
 - Mock responses should have the same shape and failure behavior that the frontend expects from a real backend.
 - Do not return arbitrary request bodies from mock endpoints. Return an explicit response model.
 
@@ -137,9 +138,9 @@ Rules:
 
 The backend is intentionally mocked in this project.
 
-- Keep route handlers under `src/app/api`.
-- Keep deterministic payloads under `src/server/mocks`.
-- Keep server-only cookie/session behavior under `src/server`.
+- Keep application mock handlers under `src/mocks` and register them through the browser worker and Node test/dev server.
+- Keep deterministic payloads and mock-only state beside those handlers under `src/mocks`.
+- Do not create Next Route Handlers for application APIs unless the project explicitly adds a real server boundary.
 - Preserve the API envelope `{ data, error, meta }`.
 - Use realistic status codes and validation errors so the frontend exercises real states.
 - Keep mock latency only where it helps verify loading and skeleton states.
@@ -148,14 +149,14 @@ The backend is intentionally mocked in this project.
 
 ### Mock API boundary
 
-The mock is an implementation detail. Components consume a typed feature API and must not know whether the result came from a mock, a Route Handler, or a future external service.
+The mock is an implementation detail. Components consume a typed feature API and must not know whether the result came from MSW, a future external service, or another transport.
 
 - Feature API functions return promises and expose typed success and failure behavior.
 - Mock latency is allowed when it verifies loading and skeleton states, but it must remain deterministic in tests.
 - Validate unknown response data at the API boundary.
 - Map transport DTOs to domain or view models before passing them into reusable UI.
 - Represent loading, success, empty, and error states explicitly instead of treating every failure as an empty list.
-- Do not call an internal Route Handler from a Server Component when direct server-side access is available; that creates an unnecessary network hop.
+- Keep the browser worker as the frontend mock boundary. Do not call mock handler functions directly from components.
 
 ## 6. React And Next.js Runtime Rules
 
