@@ -31,11 +31,12 @@ function getViolation(filename) {
   if (!sourceExtensions.has(extension)) return null;
 
   const basename = path.basename(sourcePath, extension);
+  const unitName = basename.endsWith(".test") ? basename.slice(0, -5) : basename;
   const directory = path.dirname(sourcePath).split(path.sep).join("/");
 
   // Next route segments are URLs, so their spelling is governed by the route contract.
   if (directory === "app" || directory.startsWith("app/")) {
-    return nextRouteFiles.has(basename)
+    return nextRouteFiles.has(unitName)
       ? null
       : "Next.js route files must use a documented framework filename such as page.tsx or route.ts.";
   }
@@ -46,22 +47,22 @@ function getViolation(filename) {
   }
 
   if (directory.endsWith("/components") || directory === "shared/ui") {
-    if (extension === ".tsx" && !isPascalCase(basename)) {
+    if (extension === ".tsx" && !isPascalCase(unitName)) {
       return "React component files must use PascalCase and match their component export.";
     }
   }
 
-  if (directory.endsWith("/hooks") && !isHookName(basename)) {
+  if (directory.endsWith("/hooks") && !isHookName(unitName)) {
     return "Hook files must use the useX naming convention, for example useHomeData.ts.";
   }
 
   if (directory.endsWith("/api") && directory.startsWith("features/")) {
-    if (!isCamelCase(basename) || !basename.endsWith("Api")) {
+    if (!isCamelCase(unitName) || !unitName.endsWith("Api")) {
       return "Feature API files must use camelCase and end with Api, for example homeApi.ts.";
     }
   }
 
-  if (!isCamelCase(basename) && !isPascalCase(basename)) {
+  if (!isCamelCase(unitName) && !isPascalCase(unitName)) {
     return "Source filenames must use camelCase or PascalCase. Do not use kebab-case or snake_case.";
   }
 
