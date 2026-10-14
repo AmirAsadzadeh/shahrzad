@@ -1,8 +1,8 @@
-import axios, { type AxiosError, type AxiosRequestConfig } from "axios";
-import type { ApiResponse } from "@/shared/api/types";
+import axios, { type AxiosError } from "axios";
+import type { ApiErrorBody, ApiErrorCode, ApiResponse } from "@/shared/api/types";
 import { AppError } from "@/shared/api/errors";
 
-const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+const apiBaseUrl = "/api";
 
 export const http = axios.create({
   baseURL: apiBaseUrl,
@@ -19,19 +19,22 @@ http.interceptors.response.use(
   (response) => {
     const body = response.data as ApiResponse<unknown> | unknown;
 
-    if (isApiResponse(body)) {
-      if (body.error) {
-        throw new AppError(body.error.message, {
-          status: response.status,
-          code: body.error.code,
-          details: body.error.details
-        });
-      }
-
-      return body.data as never;
+    if (!isApiResponse(body)) {
+      throw new AppError("پاسخ دریافتی از سرور معتبر نیست.", {
+        status: 502,
+        code: "UPSTREAM_ERROR"
+      });
     }
 
-    return body as never;
+    if (body.error) {
+      throw new AppError(body.error.message, {
+        status: response.status,
+        code: body.error.code,
+        details: body.error.details
+      });
+    }
+
+    return body.data as never;
   },
   (error: AxiosError<ApiResponse<unknown>>) => {
     const responseBody = error.response?.data;
@@ -40,7 +43,7 @@ http.interceptors.response.use(
     throw new AppError(
       responseError?.message || (error.request ? "ارتباط با سرور برقرار نشد." : "خطای غیرمنتظره‌ای رخ داد."),
       {
-        status: error.response?.status ?? 0,
+        status: error.response?.status ?? 503,
         code: responseError?.code ?? "UPSTREAM_ERROR",
         details: responseError?.details
       }
@@ -48,16 +51,48 @@ http.interceptors.response.use(
   }
 );
 
-export function request<T>(config: AxiosRequestConfig): Promise<T> {
-  return http.request<never, T>(config).then((response) => response as unknown as T);
-}
-
 function isApiResponse(value: unknown): value is ApiResponse<unknown> {
   return Boolean(
-    value &&
-      typeof value === "object" &&
+    isRecord(value) &&
       "data" in value &&
       "error" in value &&
-      "meta" in value
+      "meta" in value &&
+      isRecord(value.meta) &&
+      typeof value.meta.requestId === "string" &&
+      (value.error === null || isApiErrorBody(value.error))
   );
+}
+
+function isApiErrorBody(value: unknown): value is ApiErrorBody {
+  return Boolean(
+    isRecord(value) &&
+      isApiErrorCode(value.code) &&
+      typeof value.message === "string" &&
+      (value.details === undefined || isStringRecord(value.details))
+  );
+}
+
+function isApiErrorCode(value: unknown): value is ApiErrorCode {
+  return (
+    value === "BAD_REQUEST" ||
+    value === "UNAUTHORIZED" ||
+    value === "FORBIDDEN" ||
+    value === "NOT_FOUND" ||
+    value === "RATE_LIMITED" ||
+    value === "PAYLOAD_TOO_LARGE" ||
+    value === "UNSUPPORTED_MEDIA_TYPE" ||
+    value === "UPSTREAM_ERROR" ||
+    value === "INTERNAL_ERROR"
+  );
+}
+
+function isStringRecord(value: unknown): value is Record<string, string> {
+  return (
+    isRecord(value) &&
+    Object.values(value).every((entry) => typeof entry === "string")
+  );
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
 }
