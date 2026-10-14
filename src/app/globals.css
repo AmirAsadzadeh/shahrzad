@@ -1,5 +1,4 @@
 @import "swiper/css";
-@import "swiper/css/pagination";
 @import "tailwindcss";
 
 :root {
@@ -83,6 +82,10 @@ textarea {
   background-image: none;
 }
 
+.shahrzad-carousel {
+  position: relative;
+}
+
 .shahrzad-carousel .swiper {
   overflow: hidden;
   border-radius: 0.75rem;
@@ -100,26 +103,33 @@ textarea {
   height: auto;
 }
 
-.shahrzad-carousel .swiper-pagination {
+.shahrzad-carousel-pagination {
+  position: absolute;
   right: 0;
-  bottom: 0 !important;
+  bottom: 0;
   left: 0;
   height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
+  direction: ltr;
 }
 
-.shahrzad-carousel .swiper-pagination-bullet {
+.shahrzad-carousel-pagination__bullet {
+  display: block;
+  flex: 0 0 auto;
   width: 8px;
   height: 4px;
+  padding: 0;
+  border: 0;
   margin: 0 4px;
   border-radius: 4px;
   background: #1c1c1c;
   opacity: 0.2;
+  cursor: pointer;
 }
 
-.shahrzad-carousel .swiper-pagination-bullet-active {
+.shahrzad-carousel-pagination__bullet.is-active {
   width: 16px;
   background: #307fe2;
   opacity: 1;

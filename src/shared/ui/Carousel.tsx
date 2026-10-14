@@ -1,7 +1,8 @@
 "use client";
 
-import { Children, type ReactNode } from "react";
-import { A11y, Autoplay, Pagination } from "swiper/modules";
+import { Children, useMemo, useRef, useState, type ReactNode } from "react";
+import type { Swiper as SwiperInstance } from "swiper";
+import { A11y, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { SwiperOptions } from "swiper/types";
 
@@ -22,8 +23,20 @@ const defaultAutoplay: NonNullable<SwiperOptions["autoplay"]> = {
   delay: 5000,
   disableOnInteraction: false,
   pauseOnMouseEnter: true,
-  stopOnLastSlide: true
+  stopOnLastSlide: false
 };
+
+function getMaximumSlidesPerView(
+  slidesPerView: SwiperOptions["slidesPerView"],
+  breakpoints: SwiperOptions["breakpoints"]
+) {
+  const breakpointSlidesPerView = Object.values(breakpoints ?? {}).map((breakpoint) => breakpoint.slidesPerView);
+  const numericValues = [slidesPerView, ...breakpointSlidesPerView].filter(
+    (value): value is number => typeof value === "number"
+  );
+
+  return Math.max(1, ...numericValues.map((value) => Math.ceil(value)));
+}
 
 export function Carousel({
   children,
@@ -38,8 +51,35 @@ export function Carousel({
   pagination = true
 }: Props) {
   const slides = Children.toArray(children);
+  const swiperRef = useRef<SwiperInstance | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const maximumSlidesPerView = getMaximumSlidesPerView(slidesPerView, breakpoints);
+  const visibleActiveIndex = Math.min(activeIndex, Math.max(slides.length - 1, 0));
+  const renderedSlides = useMemo(() => {
+    const renderedSlideCount = loop ? Math.max(slides.length, maximumSlidesPerView + 1) : slides.length;
+
+    return Array.from({ length: renderedSlideCount }, (_, index) => ({
+      content: slides[index % slides.length],
+      index
+    }));
+  }, [loop, maximumSlidesPerView, slides]);
 
   if (slides.length === 0) return null;
+
+  const updateActiveIndex = (swiper: SwiperInstance) => {
+    setActiveIndex(swiper.realIndex % slides.length);
+  };
+
+  const selectSlide = (index: number) => {
+    if (!swiperRef.current || swiperRef.current.destroyed) return;
+
+    if (loop) {
+      swiperRef.current.slideToLoop(index);
+      return;
+    }
+
+    swiperRef.current.slideTo(index);
+  };
 
   return (
     <section
@@ -55,17 +95,36 @@ export function Carousel({
         breakpoints={breakpoints}
         dir="rtl"
         loop={loop}
-        modules={[A11y, Autoplay, Pagination]}
-        pagination={pagination && slides.length > 1 ? { clickable: true } : undefined}
+        modules={[A11y, Autoplay]}
+        onRealIndexChange={updateActiveIndex}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+          updateActiveIndex(swiper);
+        }}
+        pagination={false}
         slidesPerView={slidesPerView}
         spaceBetween={spaceBetween}
       >
-        {slides.map((slide, index) => (
+        {renderedSlides.map(({ content, index }) => (
           <SwiperSlide key={index} className={slideClassName}>
-            {slide}
+            {content}
           </SwiperSlide>
         ))}
       </Swiper>
+      {pagination && slides.length > 1 && (
+        <div className="shahrzad-carousel-pagination" role="group" aria-label={`${ariaLabel} صفحه‌بندی`}>
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              aria-current={visibleActiveIndex === index ? "true" : undefined}
+              aria-label={`نمایش اسلاید ${index + 1}`}
+              className={`shahrzad-carousel-pagination__bullet${visibleActiveIndex === index ? " is-active" : ""}`}
+              onClick={() => selectSlide(index)}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }
