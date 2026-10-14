@@ -251,6 +251,68 @@ Even with mocked data:
 
 Prefer runtime validation at boundaries over type assertions. TypeScript types disappear at runtime; a response from a Route Handler, file, browser API, or mock is unknown until it has been checked.
 
+Repository ESLint rules reject `any`, direct `fetch` or Axios calls in presentational components, private cross-feature imports, and unapproved arbitrary Tailwind values. Use the owning feature API, a public feature contract, or a named `@theme` utility instead.
+
+### ESLint Rule Reference
+
+Run `npm run lint` after changing source code. The lint output names the rule and points to the line that needs attention. Fix the underlying ownership or typing problem instead of disabling the rule inline.
+
+#### `project/file-name-convention`
+
+This rule keeps source filenames predictable:
+
+- React components use PascalCase, such as `ServiceTile.tsx`.
+- Hooks use `useX` camelCase, such as `useHomeData.ts`.
+- Feature API modules use camelCase ending in `Api`, such as `homeApi.ts`.
+- Next.js reserved files remain lowercase, such as `page.tsx` and `loading.tsx`.
+- Public URL segments are exempt because their spelling is part of the route contract.
+
+When adding a file, choose the convention that matches its responsibility. Do not rename an unrelated existing file only to create metadata churn.
+
+#### `project/architecture`
+
+This repository rule groups several ownership and styling checks:
+
+- A feature may consume another feature only through that feature's `public.ts` contract.
+- Presentational components must call a feature API module instead of importing Axios or calling `fetch` directly.
+- Shared code cannot depend on app, feature, or mock implementation details.
+- Mock handlers cannot import UI or feature internals.
+- Tailwind arbitrary values are rejected unless they represent a documented production-specific exception.
+
+Preferred pattern:
+
+```tsx
+import { getHomeData } from "@/features/home/api/homeApi";
+```
+
+Avoid calling a transport from a component:
+
+```tsx
+const response = await fetch("/api/home");
+```
+
+For cross-feature behavior, export the smallest stable contract from `src/features/<feature>/public.ts`. For a reusable visual value, add a named token to `src/app/globals.css` under `@theme`.
+
+#### `@typescript-eslint/no-explicit-any`
+
+Do not use `any` to bypass a type error. Narrow `unknown`, define a request or response model, or validate data at the API boundary. Use a specific union or generic when the value has a known shape.
+
+#### Tailwind exceptions
+
+The architecture rule permits arbitrary values only for exact production geometry, non-scale radii, custom aspect ratios, measured font metrics, production-specific shadows, `calc(...)` geometry, and supported CSS feature variants such as `supports-[corner-shape:squircle]`. Before adding brackets, check the Tailwind v4 scale and existing `@theme` tokens.
+
+If a new production-specific exception is genuinely required, update the rule allowlist and this section together. Do not weaken the rule globally to accommodate one unrelated class.
+
+#### Validation commands
+
+```bash
+npm run lint
+npm run lint:naming
+npm run typecheck
+npm test
+npm run build
+```
+
 ## 11. Tailwind CSS And Version Control
 
 ### Tailwind CSS v4
@@ -258,6 +320,7 @@ Prefer runtime validation at boundaries over type assertions. TypeScript types d
 - Prefer supported Tailwind v4 theme and scale utilities over arbitrary bracket values when the result is equivalent. For example, use `h-50`, `top-3.5`, `w-29.5`, `leading-5.5`, and `text-white!` instead of their older arbitrary or prefix forms.
 - Add repeated Shahrzad colors and shared design values to the global `@theme` block in `src/app/globals.css`, then use the generated named utilities such as `bg-shahrzad-primary` and `text-shahrzad-ink`.
 - Keep arbitrary values when they preserve an exact production requirement and Tailwind has no equivalent: `calc(...)` geometry, non-scale radii, custom aspect ratios, measured font metrics, production-specific shadows, and CSS feature variants such as `supports-[corner-shape:squircle]`.
+- The architecture lint rule allows only those documented production-specific exceptions. Before adding another arbitrary value, check the Tailwind v4 scale and project `@theme` tokens first.
 - Do not replace an exact value with the nearest spacing or radius token only to remove brackets. Visual fidelity and stable layout dimensions take priority.
 - Review new class names with the Tailwind v4 IntelliSense/linter. Do not invent class spellings when a theme token or supported utility exists.
 
@@ -305,6 +368,8 @@ npm run build
 4. For API changes, verify malformed input, missing auth, invalid URLs, oversized bodies, rate-limit behavior, and the success contract.
 5. For UI changes, perform a browser smoke test and inspect the accessibility tree for the changed controls.
 6. Update this guide only when a convention is intentionally changed for the whole project.
+
+Husky runs lint, naming lint, typecheck, and Vitest on pre-commit. Pre-push runs the complete `npm run check` command, including the production build. Hooks are versioned under `.husky` so every clone shares the same local quality gate.
 
 ## 14. Research Basis And External Standards
 
