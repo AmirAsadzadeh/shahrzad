@@ -6,8 +6,8 @@ import { safeAssetSrc, safeHref } from "@/shared/lib/url";
 export function FloatingBar({ tiles = [], loading }: { tiles?: ServiceTile[]; loading?: boolean }) {
   if (loading) {
     return (
-      <nav className="fixed inset-x-0 bottom-0 z-[2000] w-full px-6 pb-4 pt-6 md:hidden" style={{ background: "linear-gradient(180deg, transparent 0%, #fff 100%)" }}>
-        <div className="relative mx-auto flex h-12 max-w-[343px] items-center justify-around gap-8 rounded-2xl bg-white p-2 shadow-[0_8px_12px_rgba(0,0,0,0.2)]">
+      <nav className="fixed inset-x-0 bottom-0 z-[2000] mx-auto h-[92px] w-full max-w-[900px] px-6 pb-5 pt-6 md:hidden">
+        <div className="relative mx-auto flex h-12 max-w-[576px] items-center justify-around rounded-[40px] bg-white p-3 shadow-[0_8px_12px_rgba(0,0,0,0.2)]">
           {Array.from({ length: 2 }).map((_, index) => (
             <div key={index} className="flex items-center justify-center gap-1">
               <span aria-hidden="true" className="h-6 w-6 shrink-0 rounded-lg bg-[#f7f7f7] animate-shimmer" />
@@ -30,10 +30,10 @@ export function FloatingBar({ tiles = [], loading }: { tiles?: ServiceTile[]; lo
   const visibleTiles = tiles.slice(0, 2).reverse();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-[2000] h-[92px] md:hidden">
-      <div className="relative mx-auto mt-6 flex h-12 max-w-[343px] items-center justify-between rounded-[40px] bg-white px-10 shadow-[0_8px_12px_rgba(0,0,0,0.2)]">
+    <nav className="fixed inset-x-0 bottom-0 z-[2000] mx-auto h-[92px] w-full max-w-[900px] px-6 pb-5 pt-6 md:hidden">
+      <div className="relative mx-auto flex h-12 max-w-[576px] items-center justify-around rounded-[40px] bg-white p-3 shadow-[0_8px_12px_rgba(0,0,0,0.2)]">
         {visibleTiles.map((tile) => (
-          <a key={tile.id} href={safeHref(tile.url)} className="flex h-6 items-center gap-1 text-xs font-semibold text-[#1c1c1c] focus-visible:rounded focus-visible:ring-2 focus-visible:ring-[#307fe2]">
+          <a key={tile.id} href={safeHref(tile.url)} className="flex h-6 items-center justify-center gap-1 text-sm font-normal leading-[22px] text-[#1c1c1c] focus-visible:rounded focus-visible:ring-2 focus-visible:ring-[#307fe2]">
             {tile.title === "کیف پول" || tile.title === "خدمات" ? (
               <Image
                 src={safeAssetSrc(tile.title === "کیف پول"
