@@ -33,7 +33,7 @@ export function FloatingBar({ tiles = [], loading }: { tiles?: ServiceTile[]; lo
     <nav className="shahrzad-floating-bar fixed inset-x-0 bottom-0 z-[2000] mx-auto h-[92px] w-full max-w-[900px] px-6 pb-5 pt-6 md:hidden">
       <div className="shahrzad-floating-bar__surface relative mx-auto flex h-12 max-w-[576px] items-center justify-around bg-white p-3">
         {visibleTiles.map((tile) => (
-          <a key={tile.id} href={safeHref(tile.url)} className="flex h-6 items-center justify-center gap-1 text-sm font-normal leading-[22px] text-[#1c1c1c] transition-transform duration-200 focus-visible:rounded focus-visible:ring-2 focus-visible:ring-[#307fe2]">
+          <a key={tile.id} href={safeHref(tile.url)} className="flex h-6 items-center justify-center gap-1 text-sm font-normal leading-[22px] !text-[#1c1c1c] transition-transform duration-200 focus-visible:rounded focus-visible:ring-2 focus-visible:ring-[#307fe2]">
             {tile.title === "کیف پول" || tile.title === "خدمات" ? (
               <Image
                 src={safeAssetSrc(tile.title === "کیف پول"
