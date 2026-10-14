@@ -154,14 +154,15 @@ export function HomeScreen() {
 
           <footer className="relative -mx-7 mt-9 w-[calc(100%+56px)] overflow-hidden bg-white pt-0 md:mx-0 md:mt-4 md:w-auto md:pt-14">
             <div className="mx-auto flex max-w-4xl flex-col items-center px-0">
-              <div className="relative aspect-[760/220] w-full max-w-none md:max-w-[760px]">
+              <div className="w-full max-w-none md:relative md:aspect-[760/220] md:max-w-[760px]">
                 <Image
                   src="https://web.shahrzadcity.ir/assets/footer-background-CI-D7Rh8.svg"
-                  fill
+                  width={375}
+                  height={232}
                   sizes="(max-width: 767px) 100vw, 760px"
                   alt=""
                   unoptimized
-                  className="object-contain"
+                  className="block h-auto w-full object-contain md:absolute md:inset-0"
                 />
               </div>
             </div>
