@@ -19,6 +19,7 @@ export function HomeScreen() {
   const { authenticated, loading: sessionLoading } = useAuthSession();
   const { data, loading, error, refresh } = useHomeData(authenticated);
   const [isHeaderCompact, setIsHeaderCompact] = useState(false);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
   const contentScrollRef = useRef<HTMLDivElement>(null);
 
   const scrollToTop = () => {
@@ -61,6 +62,8 @@ export function HomeScreen() {
     const updateFromContent = () => {
       if (mobileQuery.matches && contentScroller) {
         updateHeaderState(contentScroller.scrollTop);
+        const remainingScroll = contentScroller.scrollHeight - contentScroller.clientHeight - contentScroller.scrollTop;
+        setIsFooterVisible(remainingScroll <= 2);
       }
     };
     const handleViewportChange = () => {
@@ -152,17 +155,18 @@ export function HomeScreen() {
             </div>
           </section>
 
-          <footer className="relative -mx-7 mt-9 w-[calc(100%+56px)] overflow-hidden bg-white pt-0 md:mx-0 md:mt-4 md:w-auto md:pt-14">
+          <div aria-hidden="true" className="mt-9 h-[242px] md:hidden" />
+
+          <footer className="relative -mx-7 mt-9 hidden w-[calc(100%+56px)] overflow-hidden bg-white pt-0 md:mx-0 md:mt-4 md:block md:w-auto md:pt-14">
             <div className="mx-auto flex max-w-4xl flex-col items-center px-0">
-              <div className="w-full max-w-none md:relative md:aspect-[760/220] md:max-w-[760px]">
+              <div className="relative aspect-[760/220] w-full max-w-none md:max-w-[760px]">
                 <Image
                   src="https://web.shahrzadcity.ir/assets/footer-background-CI-D7Rh8.svg"
-                  width={375}
-                  height={232}
+                  fill
                   sizes="(max-width: 767px) 100vw, 760px"
                   alt=""
                   unoptimized
-                  className="block h-auto w-full object-contain md:absolute md:inset-0"
+                  className="object-contain"
                 />
               </div>
             </div>
@@ -186,6 +190,24 @@ export function HomeScreen() {
               </nav>
             </div>
           </footer>
+        </div>
+
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[1000] h-[242px] overflow-hidden will-change-[transform,opacity] transition-transform duration-200 md:hidden"
+          style={{ transform: `translateY(${isFooterVisible ? 0 : 242}px)` }}
+        >
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 w-full overflow-y-visible">
+            <Image
+              src="https://web.shahrzadcity.ir/assets/footer-background-CI-D7Rh8.svg"
+              width={375}
+              height={232}
+              sizes="100vw"
+              alt=""
+              unoptimized
+              className="block h-auto w-full object-contain"
+            />
+          </div>
         </div>
 
         <FloatingBar tiles={data?.floatingBarTiles} loading={loading} />
