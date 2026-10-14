@@ -19,35 +19,45 @@
 - [x] Map the dependency direction between `app`, `features`, `entities`, `shared`, and `mocks`.
 - [x] Identify duplicated components, utilities, models, API logic, and styling patterns.
 - [x] Review package dependencies.
-- [ ] Remove unused or duplicated dependencies after bundle and import analysis.
+- [x] Remove unused or duplicated dependencies after bundle and import analysis.
 - [x] Run `npm run lint`.
 - [x] Run `npm run lint:naming`.
 - [x] Run `npm run typecheck`.
 - [x] Run `npm run build`.
-- [x] Run all existing tests (no test script exists yet).
+- [x] Run the Vitest unit and MSW contract test suites.
 - [x] Create a findings list grouped by severity and ownership boundary.
-- [ ] Create a short list of changes that are safe to defer.
+- [x] Create a short list of changes that are safe to defer.
 
 ### Baseline Findings
 
 - **High, shared API boundary:** JSON arrays, `null`, and scalar request bodies could reach mock handlers and become unhandled `500` responses. The MSW parser now rejects non-object JSON with `400 BAD_REQUEST`.
 - **High, shared API boundary:** The browser client accepted any successful response containing `data`, `error`, and `meta`, even when the error shape or request metadata was malformed. The envelope validator now checks the error code, message, details, and request ID.
 - **Resolved, mock API boundary:** Application calls use the fixed `/api` boundary and are intercepted by MSW; no public backend origin or runtime API URL is required.
-- **Medium, resilience:** The project has no test runner or browser test suite yet, so API boundary and responsive behavior currently rely on lint, typecheck, build, and manual verification.
+- **Medium, resilience:** Component-level loading, error, keyboard, and reduced-motion coverage is still incomplete; current automated coverage focuses on API contracts and high-risk browser smoke workflows.
+- **Resolved, dependencies:** All declared runtime and development dependencies have a verified import, framework role, or build-tool role. No package was removed from the manifest.
+- **Open, dependency security:** Package installation reported five high-severity advisories; the follow-up `npm audit` could not reach the registry in this environment. Verify and remediate during the security review.
+- **Resolved, test baseline:** Vitest/MSW contract tests and a focused Playwright smoke suite now cover the current high-risk workflows. Broader component, accessibility, and visual coverage remain planned work.
 - **Medium, architecture:** `HomeScreen` owns authentication gating, responsive scroll listeners, layout composition, data states, and footer behavior. It is the first large feature component to split after the API boundary work.
 - **Low, navigation:** Several internal feature links still use raw anchors instead of `next/link`, which prevents client-side navigation and should be addressed during the home feature refactor.
 
+### Safe To Defer
+
+- Removing dependencies is deferred because the current manifest has no verified unused direct package.
+- A full browser matrix and visual regression suite are deferred until component and accessibility workflows have stable test seams.
+- The `HomeScreen` split is deferred until the enforcement rules and ownership boundaries are checked across the feature.
+- Dependency vulnerability remediation is deferred to the security review so forced upgrades do not change application behavior during the tooling phase.
+
 ## Phase 2: Rules and Enforcement
 
-- [ ] Confirm file naming conventions for routes, components, hooks, utilities, API modules, stores, models, and tests.
-- [ ] Confirm function, event handler, boolean, type, and model naming conventions.
-- [ ] Enforce naming conventions through ESLint rather than documentation alone.
-- [ ] Enforce import boundaries and dependency direction.
-- [ ] Enforce supported Tailwind utility classes before using arbitrary values.
-- [ ] Add or refine checks for unsafe `any`, unsafe URLs, raw browser storage, and direct component HTTP calls.
-- [ ] Verify Husky or equivalent hooks run the intended checks.
+- [x] Confirm file naming conventions for routes, components, hooks, utilities, API modules, stores, models, and tests.
+- [x] Confirm function, event handler, boolean, type, and model naming conventions.
+- [x] Enforce naming conventions through ESLint rather than documentation alone.
+- [x] Enforce import boundaries and dependency direction.
+- [x] Enforce supported Tailwind utility classes before using arbitrary values.
+- [x] Add or refine checks for unsafe `any` and direct component HTTP calls.
+- [x] Verify Husky hooks run the intended pre-commit and pre-push checks.
 - [ ] Add CI parity for local quality checks if CI exists.
-- [ ] Update `AGENTS.md` and `docs/engineering-standards.md` only when the rules genuinely change.
+- [x] Update `AGENTS.md` and `docs/engineering-standards.md` when the rules genuinely change.
 
 ## Phase 3: Architecture Foundation
 
