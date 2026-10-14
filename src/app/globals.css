@@ -12,6 +12,8 @@
   --color-shahrzad-danger: #d9151c;
   --color-shahrzad-footer: #4a86df;
   --color-shahrzad-footer-deep: #2f84df;
+  --text-10: 10px;
+  --text-15: 15px;
 }
 
 :root {

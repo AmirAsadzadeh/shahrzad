@@ -61,14 +61,14 @@ export function ServiceTile({ tile }: Props) {
           {tile.hasNotification && <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-white bg-shahrzad-danger" />}
           {tile.tag && (
             <span
-              className="absolute -left-2 -top-2 rounded-full border-2 border-white px-2 py-0.5 text-[10px] font-bold text-white"
+              className="absolute -left-2 -top-2 rounded-full border-2 border-white px-2 py-0.5 text-10 font-bold text-white"
               style={{ backgroundColor: tile.tag.colorCode }}
             >
               {tile.tag.title}
             </span>
           )}
         </span>
-        <span className="mt-2 max-w-[76px] text-[10px] font-medium leading-4 text-shahrzad-ink md:mr-4 md:mt-0 md:max-w-[132px] md:text-[15px] md:font-bold">
+        <span className="mt-2 max-w-19 text-10 font-medium leading-4 text-shahrzad-ink md:mr-4 md:mt-0 md:max-w-33 md:text-15 md:font-bold">
           {tile.title}
         </span>
       </Link>

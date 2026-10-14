@@ -1,5 +1,6 @@
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import architectureRules from "./eslint-rules/architecture.mjs";
 import fileNameConvention from "./eslint-rules/file-name-convention.mjs";
 
 const eslintConfig = [
@@ -13,11 +14,14 @@ const eslintConfig = [
     plugins: {
       project: {
         rules: {
+          architecture: architectureRules,
           "file-name-convention": fileNameConvention
         }
       }
     },
     rules: {
+      "@typescript-eslint/no-explicit-any": "error",
+      "project/architecture": "error",
       "project/file-name-convention": "error"
     }
   },
