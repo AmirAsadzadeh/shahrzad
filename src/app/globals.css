@@ -135,6 +135,37 @@ textarea {
   opacity: 1;
 }
 
+.shahrzad-floating-bar {
+  background: linear-gradient(180deg, transparent 0%, #fff 100%);
+}
+
+.shahrzad-floating-bar__surface {
+  width: 100%;
+  gap: 4rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+@supports (corner-shape: superellipse(2)) {
+  .shahrzad-floating-bar__surface {
+    corner-shape: superellipse(2);
+    border-radius: 2.5rem;
+  }
+}
+
+.shahrzad-floating-bar__center {
+  border: 0.25rem solid #fff;
+  border-radius: 1.25rem;
+  background: #eaf2fc;
+}
+
+@supports (corner-shape: squircle) {
+  .shahrzad-floating-bar__center {
+    corner-shape: squircle;
+    border-radius: 50%;
+  }
+}
+
 @media (min-width: 768px) {
   .shahrzad-header-pattern {
     background-color: var(--primary);
