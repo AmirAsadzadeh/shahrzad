@@ -56,6 +56,8 @@ export function HomeScreen() {
         <HomeHeader isCompact={isHeaderCompact} loading={loading} />
         <div
           ref={contentScrollRef}
+          role="region"
+          aria-label="محتوای صفحه اصلی"
           className={`relative z-20 mx-4 -mt-12 min-h-0 flex-1 overflow-x-hidden overflow-y-auto rounded-t-[22px] bg-white px-3 pb-0 pt-3 scrollbar-none transition-transform duration-200 ease-in-out will-change-transform md:static md:mx-0 md:mt-0 md:block md:flex-none md:overflow-visible md:rounded-none md:bg-transparent md:p-0 md:transition-none ${
             isHeaderCompact ? "-mb-18.5 -translate-y-18.5" : ""
           }`}
