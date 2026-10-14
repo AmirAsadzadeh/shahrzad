@@ -135,15 +135,19 @@
 
 ## Phase 10: Testing Strategy
 
-- [ ] Define the test pyramid for pure utilities, components, workflows, and browser tests.
+- [x] Define the test pyramid for pure utilities, components, workflows, and browser tests.
 - [ ] Add unit tests for parsing, validation, URL safety, and model mapping.
 - [ ] Add component tests for loading, success, empty, error, keyboard, and reduced-motion states.
-- [ ] Add browser tests for authentication, home page navigation, carousel interaction, and footer behavior.
-- [ ] Cover mobile, narrow desktop, standard desktop, and resize transitions.
+- [x] Add browser tests for authentication, home page navigation, carousel interaction, and footer behavior.
+- [x] Cover mobile, narrow desktop, standard desktop, and resize transitions.
 - [ ] Cover keyboard and accessibility workflows.
 - [ ] Add visual regression coverage for production-matched surfaces where practical.
 - [ ] Keep tests isolated and user-behavior focused.
 - [ ] Remove flaky timing assumptions and uncontrolled network dependencies.
+
+### Browser Test Scope Decision
+
+The initial Playwright layer is intentionally a small smoke suite rather than a heavy browser matrix. It protects the highest-risk user-visible contracts: authentication, home rendering, carousel interaction, mobile header compaction, desktop footer visibility, and responsive resize behavior. Vitest remains the faster tool for validation and API contracts. We will expand browser coverage only when a new user workflow or a production regression justifies the added runtime and maintenance cost.
 
 ## Phase 11: Documentation and Production Review
 
