@@ -85,7 +85,7 @@ textarea {
 
 .shahrzad-carousel .swiper {
   overflow: hidden;
-  padding-bottom: 25px;
+  padding-bottom: 1.75rem;
 }
 
 .shahrzad-carousel .swiper-slide {
@@ -93,7 +93,10 @@ textarea {
 }
 
 .shahrzad-carousel .swiper-pagination {
-  bottom: 0;
+  right: 0;
+  bottom: 0 !important;
+  left: 0;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,7 +109,6 @@ textarea {
   border-radius: 4px;
   background: #1c1c1c;
   opacity: 0.2;
-  transition: width 180ms ease, background-color 180ms ease, opacity 180ms ease;
 }
 
 .shahrzad-carousel .swiper-pagination-bullet-active {
