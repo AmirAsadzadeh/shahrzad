@@ -1,0 +1,13 @@
+.next
+node_modules
+out
+dist
+.eslintcache
+.vercel
+tsconfig.tsbuildinfo
+.env
+.env.local
+.DS_Store
+coverage
+tmp/reference
+tmp/pdfs
