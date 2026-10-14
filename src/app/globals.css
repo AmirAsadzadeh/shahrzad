@@ -1,6 +1,19 @@
 @import "swiper/css";
 @import "tailwindcss";
 
+@theme {
+  --color-shahrzad-primary: #307fe2;
+  --color-shahrzad-primary-dark: #2369c2;
+  --color-shahrzad-background: #f2f6fb;
+  --color-shahrzad-ink: #1c1c1c;
+  --color-shahrzad-surface-soft: #f7f7f7;
+  --color-shahrzad-primary-soft: #edf5ff;
+  --color-shahrzad-action: #1c66c1;
+  --color-shahrzad-danger: #d9151c;
+  --color-shahrzad-footer: #4a86df;
+  --color-shahrzad-footer-deep: #2f84df;
+}
+
 :root {
   --background: #f2f6fb;
   --foreground: #171717;
@@ -80,6 +93,11 @@ textarea {
 .shahrzad-header-pattern {
   background-color: transparent;
   background-image: none;
+}
+
+/* Ant Design's global anchor color must not override the header's white text. */
+.shahrzad-header-pattern a {
+  color: inherit;
 }
 
 .shahrzad-wallet-surface {

@@ -23,7 +23,7 @@ export function BannerCarousel({ banners = [], loading, position }: Props) {
       <div className="w-full overflow-visible rounded-xl pb-6">
         <div
           aria-hidden="true"
-          className="relative h-[180px] w-full overflow-hidden rounded-xl bg-[#f7f7f7] animate-shimmer"
+          className="relative h-45 w-full overflow-hidden rounded-xl bg-shahrzad-surface-soft animate-shimmer"
         />
       </div>
     );

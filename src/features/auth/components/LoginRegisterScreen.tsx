@@ -56,7 +56,7 @@ export function LoginRegisterScreen() {
   };
 
   const loginTab = (
-    <div className="mx-auto flex w-full max-w-[520px] flex-col gap-6 pt-4">
+    <div className="mx-auto flex w-full max-w-130 flex-col gap-6 pt-4">
       {step === "phone" ? (
         <>
           <Input
@@ -73,7 +73,7 @@ export function LoginRegisterScreen() {
           />
           <p className="text-center text-sm font-semibold text-neutral-700">
             ورود شما به منزله پذیرش{" "}
-            <Link href="/privacy" className="text-[#307fe2]">
+            <Link href="/privacy" className="text-shahrzad-primary">
               شرایط و قوانین
             </Link>{" "}
             است!
@@ -105,7 +105,7 @@ export function LoginRegisterScreen() {
   );
 
   const legalSignup = (
-    <div className="mx-auto flex w-full max-w-[520px] flex-col gap-6 pt-4">
+    <div className="mx-auto flex w-full max-w-130 flex-col gap-6 pt-4">
       <Input size="large" prefix={<Building size={20} color="#7e8794" />} placeholder="شناسه ملی سازمان" aria-label="شناسه ملی سازمان" />
       <Input size="large" prefix={<Mobile size={20} color="#7e8794" />} placeholder="شماره موبایل نماینده" aria-label="شماره موبایل نماینده" />
       <Button type="primary" size="large" block disabled>
@@ -121,7 +121,7 @@ export function LoginRegisterScreen() {
 
   return (
     <PublicShell>
-      <section className="fit-width relative -mt-12 min-h-[470px] rounded-t-3xl bg-white px-5 py-6 md:px-14">
+      <section className="fit-width relative -mt-12 min-h-117.5 rounded-t-3xl bg-white px-5 py-6 md:px-14">
         <div className="mb-8 flex items-center justify-between">
           <h1 className="flex items-center gap-2 text-xl font-black">
             <ArrowLeft size={24} />

@@ -95,10 +95,10 @@ export function HomeScreen() {
 
   return (
     <main className="min-h-screen bg-white">
-      <div className="relative flex h-[100dvh] flex-col overflow-hidden md:block md:h-auto md:min-h-screen md:overflow-visible">
+      <div className="relative flex h-dvh flex-col overflow-hidden md:block md:h-auto md:min-h-screen md:overflow-visible">
         <div
           aria-hidden="true"
-          className={`shahrzad-pattern pointer-events-none absolute inset-x-0 top-0 z-0 h-[200px] overflow-clip rounded-b-2xl transition-transform duration-200 md:hidden ${
+          className={`shahrzad-pattern pointer-events-none absolute inset-x-0 top-0 z-0 h-50 overflow-clip rounded-b-2xl transition-transform duration-200 md:hidden ${
             isHeaderCompact ? "-translate-y-20" : ""
           }`}
         />
@@ -106,11 +106,11 @@ export function HomeScreen() {
         <div
           ref={contentScrollRef}
           className={`relative z-20 mx-4 -mt-12 min-h-0 flex-1 overflow-x-hidden overflow-y-auto rounded-t-[22px] bg-white px-3 pb-0 pt-3 scrollbar-none transition-transform duration-200 ease-in-out will-change-transform md:static md:mx-0 md:mt-0 md:block md:flex-none md:overflow-visible md:rounded-none md:bg-transparent md:p-0 md:transition-none ${
-            isHeaderCompact ? "mb-[-74px] -translate-y-[74px]" : ""
+            isHeaderCompact ? "-mb-18.5 -translate-y-18.5" : ""
           }`}
         >
           <section className="fit-width relative z-20 md:-mt-16 md:px-6">
-            <div className="min-h-[640px] rounded-t-[22px] bg-white p-0 md:px-4 md:pb-14 md:pt-4">
+            <div className="min-h-160 rounded-t-[22px] bg-white p-0 md:px-4 md:pb-14 md:pt-4">
               <div className="mb-7 rounded-xl bg-white md:mb-8">
                 <BannerCarousel banners={data?.banners} loading={loading} position="top" />
               </div>
@@ -152,18 +152,18 @@ export function HomeScreen() {
               <button
                 type="button"
                 onClick={scrollToTop}
-                className="mr-auto mt-4 flex h-10 items-center justify-center whitespace-nowrap rounded-xl border border-[#1c66c1] bg-white px-4 py-2 text-sm font-medium leading-5 text-[#1c66c1] md:mt-16"
+                className="mr-auto mt-4 flex h-10 items-center justify-center whitespace-nowrap rounded-xl border border-shahrzad-action bg-white px-4 py-2 text-sm font-medium leading-5 text-shahrzad-action md:mt-16"
               >
                 بازگشت به بالا
               </button>
             </div>
           </section>
 
-          <div aria-hidden="true" className="mt-9 h-[242px] md:hidden" />
+          <div aria-hidden="true" className="mt-9 h-60.5 md:hidden" />
 
           <footer className="relative -mx-7 mt-9 hidden w-[calc(100%+56px)] overflow-hidden bg-white pt-0 md:mx-0 md:mt-4 md:block md:w-auto md:pt-14">
             <div className="mx-auto flex max-w-4xl flex-col items-center px-0">
-              <div className="relative aspect-[760/220] w-full max-w-none md:max-w-[760px]">
+              <div className="relative aspect-[760/220] w-full max-w-none md:max-w-190">
                 <Image
                   src="https://web.shahrzadcity.ir/assets/footer-background-CI-D7Rh8.svg"
                   fill
@@ -174,21 +174,21 @@ export function HomeScreen() {
                 />
               </div>
             </div>
-            <div className="hidden bg-[#2f84df] text-white md:block">
+            <div className="hidden bg-shahrzad-footer-deep text-white md:block">
               <nav className="fit-width flex h-24 items-center justify-center gap-16 text-sm font-bold">
-                <Link href="/about-shahrzad" className="!text-white">
+                <Link href="/about-shahrzad" className="text-white!">
                   درباره شهرزاد
                 </Link>
-                <Link href="/privacy" className="!text-white">
+                <Link href="/privacy" className="text-white!">
                   قوانین سایت
                 </Link>
-                <Link href="https://shahrzadcity.ir/contact" className="!text-white">
+                <Link href="https://shahrzadcity.ir/contact" className="text-white!">
                   تماس با ما
                 </Link>
-                <Link href="/faq" className="!text-white">
+                <Link href="/faq" className="text-white!">
                   پرسش های متداول
                 </Link>
-                <Link href="https://shahrzadcity.ir/download-app" className="!text-white">
+                <Link href="https://shahrzadcity.ir/download-app" className="text-white!">
                   اپلیکیشن موبایل
                 </Link>
               </nav>
@@ -198,7 +198,7 @@ export function HomeScreen() {
 
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-[1000] h-[242px] overflow-hidden will-change-[transform,opacity] transition-transform duration-200 md:hidden"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-1000 h-60.5 overflow-hidden will-change-[transform,opacity] transition-transform duration-200 md:hidden"
           style={{ transform: `translateY(${isFooterVisible ? 0 : 242}px)` }}
         >
           <div className="pointer-events-none absolute inset-x-0 bottom-0 w-full overflow-y-visible">

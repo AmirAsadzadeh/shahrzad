@@ -2,7 +2,13 @@
 
 import { Dropdown, Spin } from "antd";
 import type { MenuProps } from "antd";
-import { ArrowLeft2, Logout, Notification, ProfileCircle, Setting2 } from "iconsax-react";
+import {
+  ArrowLeft2,
+  Logout,
+  Notification,
+  ProfileCircle,
+  Setting2,
+} from "iconsax-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,22 +30,22 @@ export function HomeHeader({ isCompact, loading = false }: Props) {
       key: "profile",
       label: "حساب کاربری",
       icon: <ProfileCircle size={18} />,
-      disabled: true
+      disabled: true,
     },
     {
       key: "setting",
       label: "تنظیمات",
       icon: <Setting2 size={18} />,
-      disabled: true
+      disabled: true,
     },
     {
-      type: "divider"
+      type: "divider",
     },
     {
       key: "logout",
       label: "خروج",
-      icon: <Logout size={18} />
-    }
+      icon: <Logout size={18} />,
+    },
   ];
 
   const handleMenuClick: MenuProps["onClick"] = async ({ key }) => {
@@ -55,34 +61,41 @@ export function HomeHeader({ isCompact, loading = false }: Props) {
 
   return (
     <header
-      className={`shahrzad-header-pattern relative z-10 h-[200px] shrink-0 overflow-visible px-0 text-white md:sticky md:top-0 md:h-[188px] md:overflow-hidden md:rounded-b-2xl md:px-6 ${
-        isCompact ? "md:z-30 md:h-[200px]" : "md:z-10"
+      className={`shahrzad-header-pattern relative z-10 h-50 shrink-0 overflow-visible px-0 text-white md:sticky md:top-0 md:h-47 md:overflow-hidden md:rounded-b-2xl md:px-6 ${
+        isCompact ? "md:z-30 md:h-50" : "md:z-10"
       }`}
     >
       <div className="fit-width relative z-30 h-full">
-        <nav className="hidden h-[96px] items-center justify-between gap-6 text-base font-bold md:flex">
+        <nav className="hidden h-24 items-center justify-between gap-6 text-base font-bold md:flex">
           <div className="flex items-center gap-12">
             <Link href="/home" aria-label="صفحه اصلی شهرزاد">
-              <span className="relative block h-11 w-[118px]">
+              <span className="relative block h-11 w-29.5">
                 <Image src="/assets/logo.svg" fill sizes="118px" alt="شهرزاد" />
               </span>
             </Link>
             <div className="flex items-center gap-12">
-              <Link className="!text-white" href="/services">
+              <Link className="text-white" href="/services">
                 خدمات شهرزاد
               </Link>
-              <Link className="!text-white" href="/faq">
+              <Link className="text-white" href="/faq">
                 سوالات متداول
               </Link>
-              <Link className="!text-white" href="/about-shahrzad">
+              <Link className="text-white" href="/about-shahrzad">
                 درباره شهرزاد
               </Link>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
-            <Dropdown menu={{ items, onClick: handleMenuClick }} trigger={["click"]}>
-              <button type="button" className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/25 bg-white/12 text-white backdrop-blur transition hover:bg-white/20" aria-label="باز کردن منوی حساب کاربری">
+            <Dropdown
+              menu={{ items, onClick: handleMenuClick }}
+              trigger={["click"]}
+            >
+              <button
+                type="button"
+                className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/25 bg-white/12 text-white backdrop-blur transition hover:bg-white/20"
+                aria-label="باز کردن منوی حساب کاربری"
+              >
                 <ProfileCircle size={24} color="#fff" variant="Bold" />
               </button>
             </Dropdown>
@@ -94,7 +107,7 @@ export function HomeHeader({ isCompact, loading = false }: Props) {
             ) : (
               <Link
                 href="/wallet"
-                className="flex h-14 items-center gap-3 rounded-2xl border border-white/25 bg-white/12 px-5 text-base font-extrabold !text-white backdrop-blur transition hover:bg-white/20"
+                className="flex h-14 items-center gap-3 rounded-2xl border border-white/25 bg-white/12 px-5 text-base font-extrabold text-white backdrop-blur transition hover:bg-white/20"
               >
                 <span>کیف پول:</span>
                 <span>مشاهده</span>
@@ -104,9 +117,16 @@ export function HomeHeader({ isCompact, loading = false }: Props) {
           </div>
         </nav>
 
-        <div className="relative h-[84px] md:hidden">
-          <Dropdown menu={{ items, onClick: handleMenuClick }} trigger={["click"]}>
-            <button type="button" className="absolute right-5 top-7 z-10 flex h-6 w-6 items-center justify-center text-white" aria-label="حساب کاربری">
+        <div className="relative h-21 md:hidden">
+          <Dropdown
+            menu={{ items, onClick: handleMenuClick }}
+            trigger={["click"]}
+          >
+            <button
+              type="button"
+              className="absolute right-5 top-7 z-10 flex h-6 w-6 items-center justify-center text-white"
+              aria-label="حساب کاربری"
+            >
               <ProfileCircle size={24} color="#fff" />
             </button>
           </Dropdown>
@@ -138,17 +158,17 @@ export function HomeHeader({ isCompact, loading = false }: Props) {
           <button
             type="button"
             disabled
-            className={`absolute top-7 z-10 flex h-6 w-6 items-center justify-center text-white shahrzad-header-transition ${isCompact ? "left-5" : "left-[60px]"}`}
+            className={`absolute top-7 z-10 flex h-6 w-6 items-center justify-center text-white shahrzad-header-transition ${isCompact ? "left-5" : "left-15"}`}
             aria-label="اعلان ها"
           >
             <Notification size={24} color="#fff" />
           </button>
           {loading ? (
             <div
-              className={`shahrzad-wallet-surface shahrzad-header-transition absolute z-0 flex items-center justify-between border border-white/20 px-3 text-sm font-normal leading-[22px] text-white ${
+              className={`shahrzad-wallet-surface shahrzad-header-transition absolute z-0 flex items-center justify-between border border-white/20 px-3 text-sm font-normal leading-5.5 text-white ${
                 isCompact
-                  ? "left-1/2 top-[14px] h-12 w-[calc(100%-104px)] -translate-x-1/2"
-                  : "inset-x-5 top-[84px] h-12"
+                  ? "left-1/2 top-3.5 h-12 w-[calc(100%-104px)] -translate-x-1/2"
+                  : "inset-x-5 top-21 h-12"
               }`}
             >
               <div className="text-xs font-normal leading-[18.86px]">
@@ -159,10 +179,10 @@ export function HomeHeader({ isCompact, loading = false }: Props) {
           ) : (
             <Link
               href="/wallet"
-              className={`shahrzad-wallet-surface shahrzad-header-transition absolute z-0 flex items-center justify-between border border-white/20 px-3 text-sm font-normal leading-[22px] !text-white ${
+              className={`shahrzad-wallet-surface shahrzad-header-transition absolute z-0 flex items-center justify-between border border-white/20 px-3 text-sm font-normal leading-5.5 text-white! ${
                 isCompact
-                  ? "left-1/2 top-[14px] h-12 w-[calc(100%-104px)] -translate-x-1/2"
-                  : "inset-x-5 top-[84px] h-12"
+                  ? "left-1/2 top-3.5 h-12 w-[calc(100%-104px)] -translate-x-1/2"
+                  : "inset-x-5 top-21 h-12"
               }`}
             >
               <div className="text-xs font-normal leading-[18.86px]">

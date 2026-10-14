@@ -29,7 +29,7 @@ export function ServicesScreen() {
   if (sessionLoading || !authenticated) return null;
 
   return (
-    <main className="min-h-screen bg-[#f2f6fb] p-5">
+    <main className="min-h-screen bg-shahrzad-background p-5">
       <section className="fit-width">
         <PageTitle title="خدمات شهرزاد" />
         <Input

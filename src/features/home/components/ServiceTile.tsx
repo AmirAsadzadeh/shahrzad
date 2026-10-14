@@ -32,9 +32,9 @@ export function ServiceTile({ tile }: Props) {
         onClick={handleClick}
         aria-haspopup={hasChildren ? "dialog" : undefined}
         aria-expanded={hasChildren ? open : undefined}
-        className="group relative flex cursor-pointer flex-col items-center text-center text-[#1c1c1c] outline-none transition-transform hover:-translate-y-0.5 focus-visible:rounded-xl focus-visible:ring-2 focus-visible:ring-[#307fe2] md:flex-row md:justify-center md:text-right"
+        className="group relative flex cursor-pointer flex-col items-center text-center text-shahrzad-ink outline-none transition-transform hover:-translate-y-0.5 focus-visible:rounded-xl focus-visible:ring-2 focus-visible:ring-shahrzad-primary md:flex-row md:justify-center md:text-right"
       >
-        <span className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[#f7f7f7] p-2 transition-colors group-hover:bg-[#edf5ff] supports-[corner-shape:squircle]:rounded-full supports-[corner-shape:squircle]:[corner-shape:squircle]">
+          <span className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-shahrzad-surface-soft p-2 transition-colors group-hover:bg-shahrzad-primary-soft supports-[corner-shape:squircle]:rounded-full supports-[corner-shape:squircle]:[corner-shape:squircle]">
           {imageSrc ? (
             <Image
               src={imageSrc}
@@ -58,7 +58,7 @@ export function ServiceTile({ tile }: Props) {
               </svg>
             </span>
           )}
-          {tile.hasNotification && <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-white bg-[#d9151c]" />}
+          {tile.hasNotification && <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full border-2 border-white bg-shahrzad-danger" />}
           {tile.tag && (
             <span
               className="absolute -left-2 -top-2 rounded-full border-2 border-white px-2 py-0.5 text-[10px] font-bold text-white"
@@ -68,7 +68,7 @@ export function ServiceTile({ tile }: Props) {
             </span>
           )}
         </span>
-        <span className="mt-2 max-w-[76px] text-[10px] font-medium leading-4 text-[#1c1c1c] transition-colors group-hover:text-[#2369c2] md:mr-4 md:mt-0 md:max-w-[132px] md:text-[15px] md:font-bold">
+        <span className="mt-2 max-w-[76px] text-[10px] font-medium leading-4 text-shahrzad-ink transition-colors group-hover:text-shahrzad-primary-dark md:mr-4 md:mt-0 md:max-w-[132px] md:text-[15px] md:font-bold">
           {tile.title}
         </span>
       </a>

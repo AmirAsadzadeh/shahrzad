@@ -250,7 +250,23 @@ Even with mocked data:
 
 Prefer runtime validation at boundaries over type assertions. TypeScript types disappear at runtime; a response from a Route Handler, file, browser API, or mock is unknown until it has been checked.
 
-## 11. Performance And Production Readiness
+## 11. Tailwind CSS And Version Control
+
+### Tailwind CSS v4
+
+- Prefer supported Tailwind v4 theme and scale utilities over arbitrary bracket values when the result is equivalent. For example, use `h-50`, `top-3.5`, `w-29.5`, `leading-5.5`, and `text-white!` instead of their older arbitrary or prefix forms.
+- Add repeated Shahrzad colors and shared design values to the global `@theme` block in `src/app/globals.css`, then use the generated named utilities such as `bg-shahrzad-primary` and `text-shahrzad-ink`.
+- Keep arbitrary values when they preserve an exact production requirement and Tailwind has no equivalent: `calc(...)` geometry, non-scale radii, custom aspect ratios, measured font metrics, production-specific shadows, and CSS feature variants such as `supports-[corner-shape:squircle]`.
+- Do not replace an exact value with the nearest spacing or radius token only to remove brackets. Visual fidelity and stable layout dimensions take priority.
+- Review new class names with the Tailwind v4 IntelliSense/linter. Do not invent class spellings when a theme token or supported utility exists.
+
+### Commit approval
+
+- Do not run `git add`, `git commit`, or create a commit automatically.
+- A commit is allowed only after the user explicitly approves committing in the current turn.
+- Before requesting approval, leave the worktree reviewable and report the checks that passed, the files changed, and any remaining uncommitted user edits.
+
+## 12. Performance And Production Readiness
 
 - Use `next/image` for content images and provide stable dimensions or aspect ratios.
 - Use the Next.js Font Module for application fonts, including Vazirmatn when the selected font source supports it.

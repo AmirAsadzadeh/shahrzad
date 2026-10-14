@@ -67,7 +67,7 @@ export function FeedbackModal() {
                   aria-pressed={selected}
                   onClick={() => setRating(option.key)}
                   className={`flex flex-col items-center gap-2 rounded-2xl border p-4 text-sm font-semibold transition ${
-                    selected ? "border-[#307fe2] bg-[#edf5ff] text-[#307fe2]" : "border-neutral-200 bg-neutral-50"
+                    selected ? "border-shahrzad-primary bg-shahrzad-primary-soft text-shahrzad-primary" : "border-neutral-200 bg-neutral-50"
                   }`}
                 >
                   <Icon size={30} variant="Bulk" />
