@@ -85,7 +85,15 @@ textarea {
 
 .shahrzad-carousel .swiper {
   overflow: hidden;
+  border-radius: 0.75rem;
   padding-bottom: 1.75rem;
+}
+
+@supports (corner-shape: superellipse(2)) {
+  .shahrzad-carousel .swiper {
+    corner-shape: superellipse(2);
+    border-radius: 1.875rem;
+  }
 }
 
 .shahrzad-carousel .swiper-slide {

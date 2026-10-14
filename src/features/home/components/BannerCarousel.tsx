@@ -41,6 +41,7 @@ export function BannerCarousel({ banners = [], loading, position }: Props) {
         }
       }}
       className="animate-soft-in"
+      loop
       slideClassName="h-auto"
     >
       {visibleBanners.map((banner) => (
