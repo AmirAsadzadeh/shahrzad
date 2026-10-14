@@ -18,8 +18,7 @@ const nextConfig: NextConfig = {
     ]
   },
   async headers() {
-    const apiOrigin = getApiOrigin();
-    const connectSources = ["'self'", "https://api.shahrzadcity.ir", ...(apiOrigin ? [apiOrigin] : [])];
+    const connectSources = ["'self'"];
     if (process.env.NODE_ENV !== "production") connectSources.push("http://localhost:*", "ws://localhost:*");
 
     const scriptSources = ["'self'", "'unsafe-inline'"];
@@ -57,16 +56,5 @@ const nextConfig: NextConfig = {
     ];
   }
 };
-
-function getApiOrigin(): string | null {
-  const value = process.env.NEXT_PUBLIC_API_BASE_URL;
-  if (!value || value.startsWith("/")) return null;
-
-  try {
-    return new URL(value).origin;
-  } catch {
-    return null;
-  }
-}
 
 export default nextConfig;
