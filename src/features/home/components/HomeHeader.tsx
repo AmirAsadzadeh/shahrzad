@@ -146,7 +146,7 @@ export function HomeHeader({ isCompact, loading = false }: Props) {
             className={`pointer-events-none absolute left-1/2 top-6 -translate-x-1/2 shahrzad-header-transition ${isCompact ? "h-4 w-12 scale-75 opacity-0" : "pointer-events-auto h-8 w-24 scale-100 opacity-100"}`}
           >
             <Image
-              src="https://web.shahrzadcity.ir/assets/logo-DMHUAEBR.svg"
+              src="/assets/logo.svg"
               fill
               sizes="96px"
               alt="شهرزاد"

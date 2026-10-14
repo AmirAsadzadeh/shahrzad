@@ -2,6 +2,7 @@
 
 import { Drawer } from "antd";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { IconForTile } from "@/features/home/components/IconForTile";
 import type { ServiceTile as ServiceTileType } from "@/entities/home/model/types";
@@ -27,21 +28,20 @@ export function ServiceTile({ tile }: Props) {
 
   return (
     <>
-      <a
+      <Link
         href={safeHref(tile.url)}
         onClick={handleClick}
         aria-haspopup={hasChildren ? "dialog" : undefined}
         aria-expanded={hasChildren ? open : undefined}
-        className="group relative flex cursor-pointer flex-col items-center text-center text-shahrzad-ink outline-none transition-transform hover:-translate-y-0.5 focus-visible:rounded-xl focus-visible:ring-2 focus-visible:ring-shahrzad-primary md:flex-row md:justify-center md:text-right"
+        className="relative flex cursor-pointer flex-col items-center text-center text-shahrzad-ink outline-none focus-visible:rounded-xl focus-visible:ring-2 focus-visible:ring-shahrzad-primary md:flex-row md:justify-center md:text-right"
       >
-          <span className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-shahrzad-surface-soft p-2 transition-colors group-hover:bg-shahrzad-primary-soft supports-[corner-shape:squircle]:rounded-full supports-[corner-shape:squircle]:[corner-shape:squircle]">
+        <span className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-shahrzad-surface-soft p-2 supports-[corner-shape:squircle]:rounded-full supports-[corner-shape:squircle]:[corner-shape:squircle]">
           {imageSrc ? (
             <Image
               src={imageSrc}
               alt=""
               width={40}
               height={40}
-              unoptimized
               className="h-10 w-10 rounded-full object-contain supports-[corner-shape:squircle]:[corner-shape:squircle]"
             />
           ) : (
@@ -68,10 +68,10 @@ export function ServiceTile({ tile }: Props) {
             </span>
           )}
         </span>
-        <span className="mt-2 max-w-[76px] text-[10px] font-medium leading-4 text-shahrzad-ink transition-colors group-hover:text-shahrzad-primary-dark md:mr-4 md:mt-0 md:max-w-[132px] md:text-[15px] md:font-bold">
+        <span className="mt-2 max-w-[76px] text-[10px] font-medium leading-4 text-shahrzad-ink md:mr-4 md:mt-0 md:max-w-[132px] md:text-[15px] md:font-bold">
           {tile.title}
         </span>
-      </a>
+      </Link>
       <Drawer
         title={tile.title}
         open={open}

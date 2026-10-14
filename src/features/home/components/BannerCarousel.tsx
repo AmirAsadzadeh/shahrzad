@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useMemo } from "react";
 import type { Banner } from "@/entities/home/model/types";
 import { Carousel } from "@/shared/ui/Carousel";
@@ -45,13 +46,13 @@ export function BannerCarousel({ banners = [], loading, position }: Props) {
       slideClassName="h-auto"
     >
       {visibleBanners.map((banner) => (
-        <a
+        <Link
           key={banner.id}
           href={safeHref(banner.url)}
           className="relative block aspect-[2.48] overflow-hidden rounded-xl bg-white shadow-[0_8px_22px_rgba(34,87,143,0.08)]"
         >
-          <Image src={safeAssetSrc(banner.image) || "/assets/logo.svg"} alt={banner.name} fill className="object-cover" unoptimized />
-        </a>
+          <Image src={safeAssetSrc(banner.image) || "/assets/logo.svg"} alt={banner.name} fill className="object-cover" />
+        </Link>
       ))}
     </Carousel>
   );

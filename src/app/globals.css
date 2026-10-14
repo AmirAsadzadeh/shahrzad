@@ -85,7 +85,7 @@ textarea {
   background-color: var(--primary);
   background-image:
     linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0)),
-    url("https://web.shahrzadcity.ir/assets/background-header-09J_9MJy.svg");
+    url("/assets/background-header-desktop.svg");
   background-size: cover;
   background-position: center;
 }
