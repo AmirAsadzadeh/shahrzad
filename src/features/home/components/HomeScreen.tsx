@@ -38,6 +38,10 @@ export function HomeScreen() {
   }, [authenticated, router, sessionLoading]);
 
   useEffect(() => {
+    if (!authenticated) {
+      return;
+    }
+
     const mobileQuery = window.matchMedia("(max-width: 767px)");
     const contentScroller = contentScrollRef.current;
     const updateHeaderState = (scrollPosition: number) => {
@@ -83,7 +87,7 @@ export function HomeScreen() {
       contentScroller?.removeEventListener("scroll", updateFromContent);
       mobileQuery.removeEventListener("change", handleViewportChange);
     };
-  }, []);
+  }, [authenticated]);
 
   if (sessionLoading || !authenticated) {
     return null;
@@ -94,14 +98,14 @@ export function HomeScreen() {
       <div className="relative flex h-[100dvh] flex-col overflow-hidden md:block md:h-auto md:min-h-screen md:overflow-visible">
         <div
           aria-hidden="true"
-          className={`shahrzad-pattern pointer-events-none absolute inset-x-0 top-0 z-0 h-[200px] rounded-b-[24px] transition-transform duration-200 md:hidden ${
+          className={`shahrzad-pattern pointer-events-none absolute inset-x-0 top-0 z-0 h-[200px] overflow-clip rounded-b-2xl transition-transform duration-200 md:hidden ${
             isHeaderCompact ? "-translate-y-20" : ""
           }`}
         />
         <HomeHeader isCompact={isHeaderCompact} loading={loading} />
         <div
           ref={contentScrollRef}
-          className={`relative z-20 mx-4 -mt-12 min-h-0 flex-1 overflow-x-hidden overflow-y-auto rounded-t-[22px] bg-white px-3 pb-0 pt-3 scrollbar-none transition-[transform,margin-bottom] duration-200 md:static md:mx-0 md:mt-0 md:block md:flex-none md:overflow-visible md:rounded-none md:bg-transparent md:p-0 md:transition-none ${
+          className={`relative z-20 mx-4 -mt-12 min-h-0 flex-1 overflow-x-hidden overflow-y-auto rounded-t-[22px] bg-white px-3 pb-0 pt-3 scrollbar-none transition-transform duration-200 ease-in-out will-change-transform md:static md:mx-0 md:mt-0 md:block md:flex-none md:overflow-visible md:rounded-none md:bg-transparent md:p-0 md:transition-none ${
             isHeaderCompact ? "mb-[-74px] -translate-y-[74px]" : ""
           }`}
         >

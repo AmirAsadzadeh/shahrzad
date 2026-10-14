@@ -82,6 +82,25 @@ textarea {
   background-image: none;
 }
 
+.shahrzad-wallet-surface {
+  border-radius: 30px;
+  background-color: rgb(255 255 255 / 10%);
+  overflow: hidden;
+}
+
+@supports (corner-shape: superellipse(2)) {
+  .shahrzad-wallet-surface {
+    border-radius: calc(0.75rem * 2.5);
+    corner-shape: superellipse(2);
+  }
+}
+
+.shahrzad-header-transition {
+  transition-property: width, height, top, right, bottom, left, opacity, transform, translate, scale, rotate;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .shahrzad-carousel {
   position: relative;
 }
