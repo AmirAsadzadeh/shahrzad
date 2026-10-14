@@ -1,0 +1,302 @@
+@import "swiper/css";
+@import "tailwindcss";
+
+@theme {
+  --color-shahrzad-primary: #307fe2;
+  --color-shahrzad-primary-dark: #2369c2;
+  --color-shahrzad-background: #f2f6fb;
+  --color-shahrzad-ink: #1c1c1c;
+  --color-shahrzad-surface-soft: #f7f7f7;
+  --color-shahrzad-primary-soft: #edf5ff;
+  --color-shahrzad-action: #1c66c1;
+  --color-shahrzad-danger: #d9151c;
+  --color-shahrzad-footer: #4a86df;
+  --color-shahrzad-footer-deep: #2f84df;
+}
+
+:root {
+  --background: #f2f6fb;
+  --foreground: #171717;
+  --primary: #307fe2;
+  --primary-dark: #2369c2;
+  --stroke: #e4e9f1;
+  --muted: #6f7681;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-shahrzad), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+.fit-width {
+  width: min(100%, 1120px);
+  margin-inline: auto;
+}
+
+.squircle {
+  border-radius: 16px;
+}
+
+@supports (corner-shape: squircle) {
+  .squircle {
+    border-radius: 999px;
+    corner-shape: squircle;
+  }
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+:focus-visible {
+  outline: 3px solid #2369c2;
+  outline-offset: 3px;
+}
+
+.shahrzad-pattern {
+  background-color: var(--primary);
+  background-image:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0)),
+    url("https://web.shahrzadcity.ir/assets/background-header-09J_9MJy.svg");
+  background-size: cover;
+  background-position: center;
+}
+
+.shahrzad-header-pattern {
+  background-color: transparent;
+  background-image: none;
+}
+
+/* Ant Design's global anchor color must not override the header's white text. */
+.shahrzad-header-pattern a {
+  color: inherit;
+}
+
+.shahrzad-wallet-surface {
+  border-radius: 30px;
+  background-color: rgb(255 255 255 / 10%);
+  overflow: hidden;
+}
+
+.shahrzad-desktop-footer {
+  transition: opacity 100ms ease-in-out, transform 200ms ease-in-out;
+  will-change: transform, opacity;
+}
+
+.shahrzad-desktop-wallet {
+  width: 166.5px;
+}
+
+.shahrzad-mobile-footer {
+  margin-inline: -1.75rem;
+  width: calc(100% + 3.5rem);
+}
+
+.shahrzad-home-panel {
+  background: linear-gradient(
+    white 0%,
+    white calc(100% - 300px),
+    transparent calc(100% - 300px),
+    transparent 100%
+  );
+  border-radius: 1rem;
+  overflow-y: visible;
+}
+
+@supports (corner-shape: superellipse(2)) {
+  .shahrzad-home-panel {
+    border-radius: 2.5rem;
+    corner-shape: superellipse(2);
+  }
+}
+
+@supports (corner-shape: superellipse(2)) {
+  .shahrzad-wallet-surface {
+    border-radius: calc(0.75rem * 2.5);
+    corner-shape: superellipse(2);
+  }
+}
+
+.shahrzad-header-transition {
+  transition-property: width, height, top, right, bottom, left, opacity, transform, translate, scale, rotate;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shahrzad-carousel {
+  position: relative;
+}
+
+.shahrzad-carousel .swiper {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  padding-bottom: 1.75rem;
+}
+
+@supports (corner-shape: superellipse(2)) {
+  .shahrzad-carousel .swiper {
+    corner-shape: superellipse(2);
+    border-radius: 1.875rem;
+  }
+}
+
+.shahrzad-carousel .swiper-slide {
+  height: auto;
+}
+
+.shahrzad-carousel-pagination {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  direction: ltr;
+}
+
+.shahrzad-carousel-pagination__bullet {
+  display: block;
+  flex: 0 0 auto;
+  width: 8px;
+  height: 4px;
+  padding: 0;
+  border: 0;
+  margin: 0 4px;
+  border-radius: 4px;
+  background: #1c1c1c;
+  opacity: 0.2;
+  cursor: pointer;
+}
+
+.shahrzad-carousel-pagination__bullet.is-active {
+  width: 16px;
+  background: #307fe2;
+  opacity: 1;
+}
+
+.shahrzad-floating-bar {
+  background: linear-gradient(180deg, transparent 0%, #fff 100%);
+}
+
+.shahrzad-floating-bar__surface {
+  width: 100%;
+  gap: 4rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+@supports (corner-shape: superellipse(2)) {
+  .shahrzad-floating-bar__surface {
+    corner-shape: superellipse(2);
+    border-radius: 2.5rem;
+  }
+}
+
+.shahrzad-floating-bar__center {
+  border: 0.25rem solid #fff;
+  border-radius: 1.25rem;
+  background: #eaf2fc;
+}
+
+@supports (corner-shape: squircle) {
+  .shahrzad-floating-bar__center {
+    corner-shape: squircle;
+    border-radius: 50%;
+  }
+}
+
+@media (min-width: 768px) {
+  .shahrzad-header-pattern {
+    background-image: url("/assets/background-header-desktop.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+.tile-shadow {
+  box-shadow: 0 10px 30px rgba(27, 87, 160, 0.08);
+}
+
+.animate-soft-in {
+  animation: soft-in 360ms ease both;
+}
+
+.animate-shimmer {
+  background-image: linear-gradient(90deg, #f7f7f7 0%, #ffffff 50%, #f7f7f7 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes soft-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ant-btn,
+.ant-input,
+.ant-tabs,
+.ant-modal,
+.ant-drawer {
+  font-family: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
