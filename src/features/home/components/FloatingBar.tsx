@@ -46,7 +46,7 @@ export function FloatingBar({ tiles = [], loading }: { tiles?: ServiceTile[]; lo
                 className="h-6 w-6 object-contain"
               />
             ) : null}
-            <span>{tile.title}</span>
+            <span className="text-xs font-semibold leading-[18.86px]">{tile.title}</span>
           </a>
         ))}
         <a
