@@ -37,7 +37,7 @@
 - **Resolved, dependencies:** All declared runtime and development dependencies have a verified import, framework role, or build-tool role. No package was removed from the manifest.
 - **Open, dependency security:** Package installation reported five high-severity advisories; the follow-up `npm audit` could not reach the registry in this environment. Verify and remediate during the security review.
 - **Resolved, test baseline:** Vitest/MSW contract tests and a focused Playwright smoke suite now cover the current high-risk workflows. Broader component, accessibility, and visual coverage remain planned work.
-- **Medium, architecture:** `HomeScreen` owns authentication gating, responsive scroll listeners, layout composition, data states, and footer behavior. It is the first large feature component to split after the API boundary work.
+- **Partially resolved, architecture:** `HomeContent` now owns the scrollable home layout, banner/services states, and mobile footer. `HomeScreen` intentionally retains authentication, viewport listeners, data access, and page chrome for the next focused extraction.
 - **Low, navigation:** Several internal feature links still use raw anchors instead of `next/link`, which prevents client-side navigation and should be addressed during the home feature refactor.
 
 ### Safe To Defer
@@ -62,7 +62,7 @@
 ## Phase 3: Architecture Foundation
 
 - [ ] Confirm Next.js App Router ownership of route files and route-level UI states.
-- [ ] Keep reusable workflow code inside the owning feature.
+- [x] Keep reusable workflow code inside the owning feature.
 - [ ] Move genuinely cross-feature code into `shared` only after checking ownership.
 - [ ] Place shared domain models in the correct entity model folder.
 - [ ] Keep endpoint-specific DTOs beside their feature API modules.

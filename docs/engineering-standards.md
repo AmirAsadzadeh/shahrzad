@@ -192,8 +192,12 @@ These rules are framework behavior, not optional style preferences.
 - Keep route pages as composition layers. Move reusable UI into feature components.
 - Separate data access from presentation: API clients and hooks fetch data; components render it and emit user intent.
 - A component should have one clear reason to change. Split a component when it mixes data fetching, form logic, layout, and several unrelated visual regions.
+- Prefer early returns for multi-state rendering. Avoid nested JSX ternaries when a component has three or more rendering branches; use explicit state checks or a focused child component so loading, empty, success, and error paths remain easy to read.
+- Keep page components focused on composition. When a collection has loading, success, empty, or error rendering branches, extract that rendering into a feature-owned component and keep skeleton counts, responsive visibility rules, and collection mapping there. Pass normalized props such as `items` and `isLoading`.
+- Prefer feature-level reuse before shared reuse. Domain-specific components such as `ServiceGrid` belong under the owning feature; move a component to `src/shared/ui` only when it is domain-neutral and reusable across multiple features.
 - Keep loading, error, empty, and success states explicit. Do not hide a failed request behind an empty array.
 - Reuse project primitives and the existing design system before creating a new abstraction.
+- Use Ant Design components for standard interactive controls when a suitable component exists. Use native elements directly only when Ant Design has no suitable equivalent or when implementing a lower-level primitive; preserve native semantics and use the correct HTML type.
 - Use icons from the existing icon library. Do not hand-draw an icon when an approved library icon exists.
 - Interactive buttons need `type="button"` unless they intentionally submit a form.
 - Use stable dimensions for fixed-format UI such as tiles, skeletons, toolbars, and navigation controls.
