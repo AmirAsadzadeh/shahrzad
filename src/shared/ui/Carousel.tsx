@@ -42,7 +42,10 @@ export function Carousel({
   if (slides.length === 0) return null;
 
   return (
-    <section aria-label={ariaLabel} className={className}>
+    <section
+      aria-label={ariaLabel}
+      className={["shahrzad-carousel", className].filter(Boolean).join(" ")}
+    >
       <Swiper
         a11y={{
           enabled: true,
