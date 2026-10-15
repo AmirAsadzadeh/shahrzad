@@ -9,7 +9,7 @@ import { useSWRConfig } from "swr";
 import { useState } from "react";
 import type { SessionResponse } from "@/entities/auth/model/types";
 import { requestOtp as sendOtpRequest, verifyOtp } from "@/features/auth/api/authApi";
-import { useAuthStore } from "@/features/auth/store/authStore";
+import { AUTH_SESSION_KEY } from "@/features/auth/model/session";
 import { getErrorMessage } from "@/shared/api/errors";
 import { safeInternalPath } from "@/shared/lib/url";
 import { PublicShell } from "@/shared/ui/PublicShell";
@@ -19,7 +19,6 @@ export function LoginRegisterScreen() {
   const searchParams = useSearchParams();
   const redirectTo = safeInternalPath(searchParams.get("redirectTo"));
   const { mutate } = useSWRConfig();
-  const setUser = useAuthStore((state) => state.setUser);
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [nonce, setNonce] = useState("");
@@ -49,9 +48,8 @@ export function LoginRegisterScreen() {
     setError("");
     try {
       const response = await verifyOtp(phone, otp, nonce);
-      setUser(response.user);
       await mutate<SessionResponse>(
-        "/auth/session",
+        AUTH_SESSION_KEY,
         { authenticated: true, user: response.user },
         { revalidate: false }
       );
