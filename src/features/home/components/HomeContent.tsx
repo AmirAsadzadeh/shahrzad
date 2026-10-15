@@ -11,7 +11,6 @@ type Props = {
   data?: HomePayload;
   error: unknown;
   loading: boolean;
-  onRefresh: () => void;
   onScrollToTop: () => void;
   onViewAllServices: () => void;
 };
@@ -20,7 +19,6 @@ export function HomeContent({
   data,
   error,
   loading,
-  onRefresh,
   onScrollToTop,
   onViewAllServices,
 }: Props) {
@@ -42,7 +40,6 @@ export function HomeContent({
             data={data}
             error={error}
             isLoading={loading}
-            onRetry={onRefresh}
           />
 
           <BackToTopButton onClick={onScrollToTop} />

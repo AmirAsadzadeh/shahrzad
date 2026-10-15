@@ -7,7 +7,7 @@ import { getHomeData } from "@/features/home/api/homeApi";
 const fetcher = async () => getHomeData();
 
 export function useHomeData(enabled = true) {
-  const { data, error, isLoading, mutate } = useSWR<HomePayload>(enabled ? "/home" : null, fetcher, {
+  const { data, error, isLoading } = useSWR<HomePayload>(enabled ? "/home" : null, fetcher, {
     keepPreviousData: true,
     revalidateOnFocus: false,
     shouldRetryOnError: true,
@@ -18,7 +18,6 @@ export function useHomeData(enabled = true) {
   return {
     data,
     error,
-    loading: isLoading,
-    refresh: mutate
+    loading: isLoading
   };
 }

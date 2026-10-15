@@ -12,7 +12,7 @@ import { useHomeData } from "@/features/home/hooks/useHomeData";
 export function ServicesScreen() {
   const router = useRouter();
   const { authenticated, loading: sessionLoading } = useAuthSession();
-  const { data, error, loading, refresh } = useHomeData(authenticated);
+  const { data, error, loading } = useHomeData(authenticated);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
@@ -44,7 +44,6 @@ export function ServicesScreen() {
       <ServicesGrid
         error={error}
         isLoading={loading}
-        onRetry={() => void refresh()}
         tiles={tiles}
       />
     </NestedPageLayout>

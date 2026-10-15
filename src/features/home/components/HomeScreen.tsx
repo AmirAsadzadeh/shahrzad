@@ -11,7 +11,7 @@ import { useHomeData } from "@/features/home/hooks/useHomeData";
 export function HomeScreen() {
   const router = useRouter();
   const { authenticated, loading: sessionLoading } = useAuthSession();
-  const { data, loading, error, refresh } = useHomeData(authenticated);
+  const { data, loading, error } = useHomeData(authenticated);
   const { contentScrollRef, scrollToTop } = usePageScrollController();
 
   const handleViewAllServices = () => {
@@ -38,7 +38,6 @@ export function HomeScreen() {
         data={data}
         error={error}
         loading={loading}
-        onRefresh={() => void refresh()}
         onScrollToTop={scrollToTop}
         onViewAllServices={handleViewAllServices}
       />
