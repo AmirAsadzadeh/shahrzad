@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import type { ServiceTile as ServiceTileType } from "@/entities/home/model/types";
+import { ServiceTileMoreIndicator } from "@/features/home/components/ServiceTileMoreIndicator";
 import { safeHref } from "@/shared/lib/url";
 
 type Props = {
@@ -40,29 +41,7 @@ export function ServiceTile({ tile }: Props) {
           />
 
           {hasChildren && (
-            <span className="absolute -bottom-4 -left-[0.3rem] h-6 w-6">
-              <svg
-                width="23"
-                height="11"
-                viewBox="0 0 23 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M17.5 1C19.9853 1 22 3.01472 22 5.5C22 7.98528 19.9853 10 17.5 10H5.5C3.01472 10 1 7.98528 1 5.5C1 3.01472 3.01472 1 5.5 1H17.5Z"
-                  fill="#307FE2"
-                />
-                <path
-                  d="M17.5 1C19.9853 1 22 3.01472 22 5.5C22 7.98528 19.9853 10 17.5 10H5.5C3.01472 10 1 7.98528 1 5.5C1 3.01472 3.01472 1 5.5 1H17.5Z"
-                  stroke="white"
-                  strokeWidth="2"
-                />
-                <circle cx="7.5" cy="5.5" r="1.5" fill="white" />
-                <circle cx="11.5" cy="5.5" r="1.5" fill="white" />
-                <circle cx="15.5" cy="5.5" r="1.5" fill="white" />
-              </svg>
-            </span>
+            <ServiceTileMoreIndicator className="text-shahrzad-primary" />
           )}
         </span>
         <span className="mt-2 max-w-19 text-10 font-medium leading-4 text-shahrzad-ink md:mr-4 md:mt-0 md:max-w-33 md:text-15 md:font-bold">

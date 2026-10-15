@@ -1,10 +1,9 @@
 "use client";
 
-import { Alert, Button } from "antd";
 import Image from "next/image";
 import type { HomePayload } from "@/entities/home/model/types";
 import { BannerCarousel } from "@/features/home/components/BannerCarousel";
-import { ServiceGrid } from "@/features/home/components/ServiceGrid";
+import { HomeServices } from "@/features/home/components/HomeServices";
 import { BackToTopButton } from "@/shared/ui/BackToTopButton";
 import { SectionHeader } from "@/shared/ui/SectionHeader";
 
@@ -64,38 +63,5 @@ export function HomeContent({
 
       <div aria-hidden="true" className="hidden h-69.5 md:block" />
     </>
-  );
-}
-
-type HomeServicesProps = {
-  data?: HomePayload;
-  error: unknown;
-  isLoading: boolean;
-  onRetry: () => void;
-};
-
-function HomeServices({ data, error, isLoading, onRetry }: HomeServicesProps) {
-  if (error && !data) {
-    return <HomeServicesError onRetry={onRetry} />;
-  }
-
-  return (
-    <>
-      {error && <HomeServicesError onRetry={onRetry} />}
-      <ServiceGrid isLoading={isLoading} tiles={data?.tiles ?? []} />
-    </>
-  );
-}
-
-function HomeServicesError({ onRetry }: { onRetry: () => void }) {
-  return (
-    <Alert
-      type="error"
-      showIcon
-      title="خطا در بارگذاری اطلاعات"
-      description="متاسفانه مشکلی در نمایش خدمات پیش آمده، لطفا دوباره تلاش کنید."
-      action={<Button onClick={onRetry}>تلاش دوباره</Button>}
-      className="mb-5"
-    />
   );
 }
