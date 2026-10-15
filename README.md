@@ -34,10 +34,18 @@ For a quick authenticated preview, enter any valid Iranian mobile number such as
 
 ## Docker
 
+The production image uses Next.js standalone output and runs as an unprivileged user. Local environment files,
+repository metadata, test artifacts, and package-manager credentials are excluded from the Docker build context.
+No secret is baked into the image.
+
 ```bash
 docker build -t shahrzad-homepage .
 docker run --rm -p 3000:3000 shahrzad-homepage
 ```
+
+Verify the running container at `http://localhost:3000/home`. If a future deployment needs secrets, inject them at
+runtime with the platform secret manager or Docker's `--env-file`; never add them with `ARG`, `ENV`, or `COPY` in the
+Dockerfile.
 
 ## Environment
 
