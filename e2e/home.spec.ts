@@ -23,6 +23,25 @@ test.describe("home page responsive behavior", () => {
     await expect(mobileLogo).toHaveAttribute("aria-hidden", "false");
   });
 
+  test("keeps fixed floating-bar actions in their intended positions", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await authenticateUser(page);
+
+    const floatingBar = page.getByRole("navigation", { name: "دسترسی سریع" });
+    const walletAction = floatingBar.getByRole("link", { name: "کیف پول" });
+    const servicesAction = floatingBar.getByRole("link", { name: "خدمات" });
+
+    await expect(walletAction).toHaveAttribute("href", "/wallet");
+    await expect(servicesAction).toHaveAttribute("href", "/services");
+
+    const walletBox = await walletAction.boundingBox();
+    const servicesBox = await servicesAction.boundingBox();
+
+    expect(walletBox).not.toBeNull();
+    expect(servicesBox).not.toBeNull();
+    expect(walletBox?.x).toBeGreaterThan(servicesBox?.x ?? Number.POSITIVE_INFINITY);
+  });
+
   test("rebinds the mobile scroll listener after returning with browser back", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await authenticateUser(page);
