@@ -228,7 +228,6 @@ export const banners: Banner[] = [
     image: "https://static.shahrzadcity.ir/base/banner/W1o5hJAgO1.jpg",
     url: "/cheshm-roshani",
     order: 1,
-    position: "top",
   },
   {
     id: 2,
@@ -236,16 +235,6 @@ export const banners: Banner[] = [
     image: "https://static.shahrzadcity.ir/base/banner/B1LyrIbcRf.jpg",
     url: "/traffic-plan",
     order: 2,
-    position: "top",
-  },
-  {
-    id: 3,
-    name: "اپلیکیشن شهرزاد",
-    image:
-      "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1100' height='444' viewBox='0 0 1100 444'><rect width='1100' height='444' rx='28' fill='%23f5f9ff'/><path d='M0 320c205-94 394-70 566 0s347 83 534-26v150H0z' fill='%23307fe2' fill-opacity='.16'/><text x='790' y='182' fill='%23171b22' font-size='38' font-family='Tahoma' font-weight='700' text-anchor='middle'>همه خدمات در یک شهر</text><text x='790' y='238' fill='%236f7681' font-size='23' font-family='Tahoma' text-anchor='middle'>نسخه موبایل شهرزاد را دریافت کنید</text><rect x='154' y='74' width='210' height='296' rx='36' fill='%23307fe2'/><rect x='178' y='116' width='162' height='212' rx='24' fill='white'/><circle cx='259' cy='348' r='11' fill='white'/></svg>",
-    url: "https://shahrzadcity.ir/download-app",
-    order: 3,
-    position: "bottom",
   },
 ];
 

@@ -17,7 +17,6 @@ export type Banner = {
   image: string;
   url: string;
   order: number;
-  position: "top" | "bottom";
 };
 
 export type HomePayload = {

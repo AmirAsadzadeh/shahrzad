@@ -251,10 +251,6 @@ textarea {
   box-shadow: 0 10px 30px rgba(27, 87, 160, 0.08);
 }
 
-.animate-soft-in {
-  animation: soft-in 360ms ease both;
-}
-
 .animate-shimmer {
   background-image: linear-gradient(90deg, #f7f7f7 0%, #ffffff 50%, #f7f7f7 100%);
   background-size: 200% 100%;
@@ -267,17 +263,6 @@ textarea {
   }
   to {
     background-position: -100% 0;
-  }
-}
-
-@keyframes soft-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 

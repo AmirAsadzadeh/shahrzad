@@ -30,11 +30,7 @@ export function HomeContent({
       <section className="fit-width relative z-20 md:-mt-12 md:max-w-225 md:px-0">
         <div className="shahrzad-home-panel min-h-160 rounded-t-[22px] bg-white p-0 md:px-3 md:pb-14 md:pt-3">
           <div className="mb-7 rounded-xl bg-white md:mb-4">
-            <BannerCarousel
-              banners={data?.banners}
-              loading={loading}
-              position="top"
-            />
+            <BannerCarousel banners={data?.banners} loading={loading} />
           </div>
 
           <SectionHeader
