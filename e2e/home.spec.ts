@@ -120,6 +120,9 @@ test.describe("home page responsive behavior", () => {
       window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" })
     );
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+    await expect
+      .poll(() => page.locator("header").evaluate((element) => element.getBoundingClientRect().top))
+      .toBe(0);
 
     await page.getByRole("button", { name: "بازگشت به بالا" }).click();
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(2);
