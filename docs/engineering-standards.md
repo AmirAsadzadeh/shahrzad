@@ -166,6 +166,7 @@ These rules are framework behavior, not optional style preferences.
 
 - Pages and layouts are Server Components by default.
 - Use a Client Component only when the code needs state, event handlers, effects, browser APIs, or a client-only library.
+- Put reusable browser-only logic in a focused shared module that imports `client-only`. Import and call that module only from Client Components or other client-side modules. Browser globals such as `window`, `document`, `navigator`, and `matchMedia` are unavailable during server rendering; do not make a browser-only utility appear universally safe by silently returning a server fallback.
 - Keep the `"use client"` boundary as low in the tree as practical so the browser receives less JavaScript.
 - Render context providers as deep as possible rather than wrapping the entire document without need.
 - Use `loading.tsx` and Suspense to stream independent or slow UI instead of blocking the entire route.

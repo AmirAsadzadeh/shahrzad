@@ -10,6 +10,7 @@ import { FloatingBar } from "@/features/home/components/FloatingBar";
 import { HomeContent } from "@/features/home/components/HomeContent";
 import { useHomeData } from "@/features/home/hooks/useHomeData";
 import { useHomeViewport } from "@/features/home/hooks/useHomeViewport";
+import { getPreferredScrollBehavior, isMobileViewport } from "@/shared/lib/mediaQuery";
 
 export function HomeScreen() {
   const router = useRouter();
@@ -22,12 +23,9 @@ export function HomeScreen() {
   });
 
   const handleScrollToTop = () => {
-    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      ? "auto"
-      : "smooth";
-    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const behavior = getPreferredScrollBehavior();
 
-    if (isMobile && contentScrollRef.current) {
+    if (isMobileViewport() && contentScrollRef.current) {
       contentScrollRef.current.scrollTo({ top: 0, behavior });
       return;
     }
