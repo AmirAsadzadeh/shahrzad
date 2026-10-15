@@ -2,10 +2,23 @@ import { http } from "@/shared/api/http";
 
 export type FeedbackRating = "good" | "normal" | "bad";
 
-export function getFeedbackVisibility(): Promise<{ showModal: boolean }> {
-  return http.get<never, { showModal: boolean }>("/feedback");
+export type FeedbackInput = {
+  rating: FeedbackRating;
+  description: string;
+};
+
+export type FeedbackVisibility = {
+  showModal: boolean;
+};
+
+export type FeedbackSubmission = {
+  submitted: boolean;
+};
+
+export function getFeedbackVisibility(): Promise<FeedbackVisibility> {
+  return http.get<never, FeedbackVisibility>("/feedback");
 }
 
-export function submitFeedback(input: { rating: FeedbackRating; description: string }): Promise<{ submitted: boolean }> {
-  return http.post<never, { submitted: boolean }>("/feedback", input);
+export function submitFeedback(input: FeedbackInput): Promise<FeedbackSubmission> {
+  return http.post<never, FeedbackSubmission>("/feedback", input);
 }

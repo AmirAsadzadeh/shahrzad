@@ -2,12 +2,10 @@
 
 import { Button, Input, Modal } from "antd";
 import { Happyemoji, Like1, MessageText } from "iconsax-react";
-import { useEffect, useState } from "react";
-import {
-  getFeedbackVisibility,
-  submitFeedback,
-  type FeedbackRating,
-} from "@/features/feedback/api/feedbackApi";
+import { useState } from "react";
+import type { FeedbackRating } from "@/features/feedback/api/feedbackApi";
+import { useFeedbackVisibility } from "@/features/feedback/hooks/useFeedbackVisibility";
+import { useSubmitFeedback } from "@/features/feedback/hooks/useSubmitFeedback";
 import { getErrorMessage } from "@/shared/api/errors";
 
 const ratingOptions: {
@@ -21,39 +19,42 @@ const ratingOptions: {
 ];
 
 export function FeedbackModal() {
-  const [open, setOpen] = useState(false);
+  const { shouldShow } = useFeedbackVisibility();
+  const {
+    error: submissionError,
+    isSubmitting,
+    reset: resetSubmission,
+    submit,
+  } = useSubmitFeedback();
+  const [dismissed, setDismissed] = useState(false);
   const [done, setDone] = useState(false);
   const [rating, setRating] = useState<FeedbackRating | null>(null);
   const [description, setDescription] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
 
-  useEffect(() => {
-    getFeedbackVisibility()
-      .then((result) => setOpen(result.showModal))
-      .catch(() => undefined);
-  }, []);
+  const handleRatingChange = (nextRating: FeedbackRating) => {
+    resetSubmission();
+    setRating(nextRating);
+  };
 
-  const submit = async () => {
-    setSubmitting(true);
-    setError("");
+  const handleSubmit = async () => {
+    if (!rating) return;
+
     try {
-      if (!rating) return;
-      await submitFeedback({ rating, description });
+      await submit({ rating, description });
       setDone(true);
-    } catch (submitError) {
-      setError(getErrorMessage(submitError, "ثبت بازخورد انجام نشد."));
-    } finally {
-      setSubmitting(false);
+    } catch {
+      // Mutation state exposes the normalized request error below.
     }
   };
+
+  const open = shouldShow && !dismissed;
 
   return (
     <Modal
       title={done ? "نظر شما ثبت شد" : "نظرسنجی کاربران"}
       open={open}
       footer={null}
-      onCancel={() => setOpen(false)}
+      onCancel={() => setDismissed(true)}
       destroyOnHidden
     >
       {done ? (
@@ -61,7 +62,7 @@ export function FeedbackModal() {
           <p className="text-sm leading-7 text-neutral-600">
             ممنونیم که وقت گذاشتی. بازخورد شما به بهتر شدن شهرزاد کمک می‌کند.
           </p>
-          <Button type="primary" block onClick={() => setOpen(false)}>
+          <Button type="primary" block onClick={() => setDismissed(true)}>
             بستن
           </Button>
         </div>
@@ -79,7 +80,7 @@ export function FeedbackModal() {
                   key={option.key}
                   type="button"
                   aria-pressed={selected}
-                  onClick={() => setRating(option.key)}
+                  onClick={() => handleRatingChange(option.key)}
                   className={`flex flex-col items-center gap-2 rounded-2xl border p-4 text-sm font-semibold transition ${
                     selected
                       ? "border-shahrzad-primary bg-shahrzad-primary-soft text-shahrzad-primary"
@@ -101,17 +102,17 @@ export function FeedbackModal() {
               onChange={(event) => setDescription(event.target.value)}
             />
           )}
-          {error && (
+          {submissionError && (
             <p role="alert" className="text-sm text-red-600">
-              {error}
+              {getErrorMessage(submissionError, "ثبت بازخورد انجام نشد.")}
             </p>
           )}
           <Button
             type="primary"
             block
             disabled={!rating}
-            loading={submitting}
-            onClick={submit}
+            loading={isSubmitting}
+            onClick={handleSubmit}
           >
             ثبت بازخورد
           </Button>
