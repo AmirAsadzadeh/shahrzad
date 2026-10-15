@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState, type RefObject, type UIEvent } from "react";
+import { isMobileViewport } from "@/shared/lib/mediaQuery";
 
 type Options = {
   authenticated: boolean;
@@ -13,7 +14,6 @@ type HomeViewportState = {
   isDesktopFooterVisible: boolean;
 };
 
-const MOBILE_BREAKPOINT = 768;
 const COMPACT_THRESHOLD = 60;
 const EXPANDED_THRESHOLD = 20;
 
@@ -29,7 +29,7 @@ export function useHomeViewport({ authenticated, contentScrollRef }: Options): H
   const [isDesktopFooterVisible, setIsDesktopFooterVisible] = useState(false);
 
   const handleContentScroll = useCallback((event: UIEvent<HTMLDivElement>) => {
-    if (window.innerWidth >= MOBILE_BREAKPOINT) return;
+    if (!isMobileViewport()) return;
 
     const scrollPosition = event.currentTarget.scrollTop;
     setIsHeaderCompact((wasCompact) => getHeaderCompactState(wasCompact, scrollPosition));
@@ -37,8 +37,6 @@ export function useHomeViewport({ authenticated, contentScrollRef }: Options): H
 
   useEffect(() => {
     if (!authenticated) return;
-
-    const isMobileViewport = () => window.innerWidth < MOBILE_BREAKPOINT;
 
     const updateDesktopFooter = () => {
       if (isMobileViewport()) {

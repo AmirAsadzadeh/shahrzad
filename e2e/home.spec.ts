@@ -44,6 +44,21 @@ test.describe("home page responsive behavior", () => {
     await expect(mobileLogo).toHaveAttribute("aria-hidden", "false");
   });
 
+  test("scrolls the mobile content region back to the top", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await authenticateUser(page);
+
+    const scrollRegion = page.getByRole("region", { name: "محتوای صفحه اصلی" });
+
+    await scrollRegion.evaluate((element) =>
+      element.scrollTo({ top: element.scrollHeight, behavior: "instant" })
+    );
+    await expect.poll(() => scrollRegion.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+
+    await page.getByRole("button", { name: "بازگشت به بالا" }).click();
+    await expect.poll(() => scrollRegion.evaluate((element) => element.scrollTop)).toBeLessThan(2);
+  });
+
   test("keeps desktop footer behavior stable across a desktop-to-mobile resize", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await authenticateUser(page);
