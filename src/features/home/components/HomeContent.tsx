@@ -2,7 +2,6 @@
 
 import { Alert, Button } from "antd";
 import Image from "next/image";
-import type { RefObject } from "react";
 import type { HomePayload } from "@/entities/home/model/types";
 import { BannerCarousel } from "@/features/home/components/BannerCarousel";
 import { ServiceGrid } from "@/features/home/components/ServiceGrid";
@@ -10,10 +9,8 @@ import { BackToTopButton } from "@/shared/ui/BackToTopButton";
 import { SectionHeader } from "@/shared/ui/SectionHeader";
 
 type Props = {
-  contentScrollRef: RefObject<HTMLDivElement | null>;
   data?: HomePayload;
   error: unknown;
-  isHeaderCompact: boolean;
   loading: boolean;
   onRefresh: () => void;
   onScrollToTop: () => void;
@@ -21,24 +18,15 @@ type Props = {
 };
 
 export function HomeContent({
-  contentScrollRef,
   data,
   error,
-  isHeaderCompact,
   loading,
   onRefresh,
   onScrollToTop,
   onViewAllServices
 }: Props) {
   return (
-    <div
-      ref={contentScrollRef}
-      role="region"
-      aria-label="محتوای صفحه اصلی"
-      className={`relative z-20 mx-4 -mt-12 min-h-0 flex-1 overflow-x-hidden overflow-y-auto rounded-t-[22px] bg-white px-3 pb-0 pt-3 scrollbar-none transition-transform duration-200 ease-in-out will-change-transform md:static md:mx-0 md:mt-0 md:block md:flex-none md:overflow-visible md:rounded-none md:bg-transparent md:p-0 md:transition-none ${
-        isHeaderCompact ? "-mb-18.5 -translate-y-18.5" : ""
-      }`}
-    >
+    <>
       <section className="fit-width relative z-20 md:-mt-12 md:max-w-225 md:px-0">
         <div className="shahrzad-home-panel min-h-160 rounded-t-[22px] bg-white p-0 md:px-3 md:pb-14 md:pt-3">
           <div className="mb-7 rounded-xl bg-white md:mb-4">
@@ -81,6 +69,6 @@ export function HomeContent({
       </div>
 
       <div aria-hidden="true" className="hidden h-69.5 md:block" />
-    </div>
+    </>
   );
 }
