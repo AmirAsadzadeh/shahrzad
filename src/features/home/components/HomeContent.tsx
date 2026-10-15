@@ -23,14 +23,18 @@ export function HomeContent({
   loading,
   onRefresh,
   onScrollToTop,
-  onViewAllServices
+  onViewAllServices,
 }: Props) {
   return (
     <>
       <section className="fit-width relative z-20 md:-mt-12 md:max-w-225 md:px-0">
         <div className="shahrzad-home-panel min-h-160 rounded-t-[22px] bg-white p-0 md:px-3 md:pb-14 md:pt-3">
           <div className="mb-7 rounded-xl bg-white md:mb-4">
-            <BannerCarousel banners={data?.banners} loading={loading} position="top" />
+            <BannerCarousel
+              banners={data?.banners}
+              loading={loading}
+              position="top"
+            />
           </div>
 
           <SectionHeader
@@ -74,12 +78,7 @@ type HomeServicesProps = {
   onRetry: () => void;
 };
 
-function HomeServices({
-  data,
-  error,
-  isLoading,
-  onRetry
-}: HomeServicesProps) {
+function HomeServices({ data, error, isLoading, onRetry }: HomeServicesProps) {
   if (error && !data) {
     return <HomeServicesError onRetry={onRetry} />;
   }
@@ -97,7 +96,7 @@ function HomeServicesError({ onRetry }: { onRetry: () => void }) {
     <Alert
       type="error"
       showIcon
-      message="خطا در بارگذاری اطلاعات"
+      title="خطا در بارگذاری اطلاعات"
       description="متاسفانه مشکلی در نمایش خدمات پیش آمده، لطفا دوباره تلاش کنید."
       action={<Button onClick={onRetry}>تلاش دوباره</Button>}
       className="mb-5"
