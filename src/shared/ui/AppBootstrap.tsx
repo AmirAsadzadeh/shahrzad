@@ -10,7 +10,7 @@ export function AppBootstrapLoader() {
       className="flex min-h-dvh flex-col items-center justify-center bg-shahrzad-primary px-6"
     >
       <div className="shahrzad-bootstrap-logo relative h-14 w-40">
-        <Image src="/assets/logo.svg" alt="شهرزاد" fill priority sizes="160px" />
+        <Image src="/assets/logo.svg" alt="شهرزاد" fill preload sizes="160px" />
       </div>
       <div aria-hidden="true" className="mt-6 flex items-center gap-2">
         <span className="shahrzad-bootstrap-dot" />
@@ -26,7 +26,7 @@ export function AppBootstrapError({ onRetry }: { onRetry: () => void }) {
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center bg-shahrzad-primary px-6 text-center text-white">
       <div className="relative mb-8 h-12 w-36">
-        <Image src="/assets/logo.svg" alt="شهرزاد" fill priority sizes="144px" />
+        <Image src="/assets/logo.svg" alt="شهرزاد" fill preload sizes="144px" />
       </div>
       <h1 className="text-lg font-bold">راه‌اندازی شهرزاد انجام نشد</h1>
       <p className="mt-2 text-sm leading-7 text-white/80">لطفا اتصال خود را بررسی و دوباره تلاش کنید.</p>

@@ -29,13 +29,20 @@ export function BannerCarousel({ banners = [], loading }: Props) {
       loop
       slideClassName="h-auto"
     >
-      {banners.map((banner) => (
+      {banners.map((banner, index) => (
         <Link
           key={banner.id}
           href={safeHref(banner.url)}
           className="relative block aspect-[2.48] overflow-hidden rounded-xl bg-white shadow-[0_8px_22px_rgba(34,87,143,0.08)]"
         >
-          <Image src={safeAssetSrc(banner.image) || "/assets/logo.svg"} alt={banner.name} fill className="object-cover" />
+          <Image
+            src={safeAssetSrc(banner.image) || "/assets/logo.svg"}
+            alt={banner.name}
+            fill
+            fetchPriority={index === 0 ? "high" : "auto"}
+            sizes="(min-width: 900px) 450px, 100vw"
+            className="object-cover"
+          />
         </Link>
       ))}
     </Carousel>
