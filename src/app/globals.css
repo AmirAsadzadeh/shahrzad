@@ -1,6 +1,60 @@
 @import "swiper/css";
 @import "tailwindcss";
 
+@keyframes shahrzad-bootstrap-breathe {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shahrzad-bootstrap-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+
+  30% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+.shahrzad-bootstrap-logo {
+  animation: shahrzad-bootstrap-breathe 1.8s ease-in-out infinite;
+}
+
+.shahrzad-bootstrap-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 90%);
+  animation: shahrzad-bootstrap-dot 1.2s ease-in-out infinite;
+}
+
+.shahrzad-bootstrap-dot:nth-child(2) {
+  animation-delay: 150ms;
+}
+
+.shahrzad-bootstrap-dot:nth-child(3) {
+  animation-delay: 300ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shahrzad-bootstrap-logo,
+  .shahrzad-bootstrap-dot {
+    animation: none;
+  }
+}
+
 @theme {
   --color-shahrzad-primary: #307fe2;
   --color-shahrzad-primary-dark: #2369c2;

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { AppBootstrapError, AppBootstrapLoader } from '@/shared/ui/AppBootstrap'
 
 let workerStartPromise: Promise<void> | null = null
 
@@ -15,28 +16,27 @@ const startWorker = () => {
 }
 
 export default function MSWProvider({ children }: { children: React.ReactNode }) {
-  const [isReady, setIsReady] = useState(false)
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
 
   useEffect(() => {
     let isMounted = true
 
-    startWorker().then(() => {
-      if (isMounted) setIsReady(true)
-    })
+    startWorker()
+      .then(() => {
+        if (isMounted) setStatus('ready')
+      })
+      .catch(() => {
+        workerStartPromise = null
+        if (isMounted) setStatus('error')
+      })
 
     return () => {
       isMounted = false
     }
   }, [])
 
-  if (!isReady) {
-    return (
-      <div style={{ padding: '2rem', textAlign: 'center', fontFamily: 'sans-serif' }}>
-        <h2>Initializing Mock Server...</h2>
-        <p>Please wait while the service worker starts.</p>
-      </div>
-    )
-  }
+  if (status === 'loading') return <AppBootstrapLoader />
+  if (status === 'error') return <AppBootstrapError onRetry={() => window.location.reload()} />
 
   return <>{children}</>
 }
