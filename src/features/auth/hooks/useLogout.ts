@@ -6,8 +6,7 @@ import { useSWRConfig } from "swr";
 import type { SessionResponse } from "@/entities/auth/model/types";
 import { logout as requestLogout } from "@/features/auth/api/authApi";
 import { ANONYMOUS_SESSION, AUTH_SESSION_KEY } from "@/features/auth/model/session";
-
-const LOGIN_PATH = "/login-register?redirectTo=/home";
+import { APP_ROUTES } from "@/shared/constants/routes";
 
 export function useLogout() {
   const router = useRouter();
@@ -31,7 +30,7 @@ export function useLogout() {
       await mutate<SessionResponse>(AUTH_SESSION_KEY, ANONYMOUS_SESSION, {
         revalidate: false
       });
-      router.replace(LOGIN_PATH);
+      router.replace(APP_ROUTES.loginToHome);
     } finally {
       isLogoutPendingRef.current = false;
       setIsLoggingOut(false);

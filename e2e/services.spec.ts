@@ -1,5 +1,6 @@
 import { expect, test } from "./testFixtures";
 import { authenticateUser } from "./helpers/authenticateUser";
+import { APP_ROUTES } from "@/shared/constants/routes";
 
 test("services page uses the mobile nested-page header", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -14,7 +15,7 @@ test("services page uses the mobile nested-page header", async ({ page }) => {
   );
 
   await page.getByRole("button", { name: "مشاهده همه" }).click();
-  await expect(page).toHaveURL(/\/services$/);
+  await expect(page).toHaveURL((url) => url.pathname === APP_ROUTES.services);
 
   const scrollRegion = page.getByRole("region", { name: "محتوای خدمات شهرزاد" });
 
@@ -23,7 +24,7 @@ test("services page uses the mobile nested-page header", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "خدمات شهرزاد" })).toBeVisible();
   await expect(page.getByRole("link", { name: "صفحه اصلی", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "بازگشت" })).toBeVisible();
-  await expect(page.locator('header a[href="/wallet"]')).toBeHidden();
+  await expect(page.locator(`header a[href="${APP_ROUTES.wallet}"]`)).toBeHidden();
   await expect(page.locator("footer")).toHaveCount(0);
   await expect
     .poll(() => page.locator("header").evaluate((element) => element.getBoundingClientRect().height))
@@ -40,7 +41,7 @@ test("services page keeps the full desktop header and container back action", as
   await authenticateUser(page);
 
   await page.getByRole("button", { name: "مشاهده همه" }).click();
-  await expect(page).toHaveURL(/\/services$/);
+  await expect(page).toHaveURL((url) => url.pathname === APP_ROUTES.services);
 
   await expect(page.getByRole("link", { name: "صفحه اصلی شهرزاد" })).toBeVisible();
   await expect(page.getByRole("link", { name: "خدمات شهرزاد" })).toBeVisible();
@@ -49,14 +50,14 @@ test("services page keeps the full desktop header and container back action", as
   await expect(page.getByRole("heading", { name: "خدمات شهرزاد" })).toBeVisible();
 
   await page.getByRole("button", { name: "بازگشت" }).click();
-  await expect(page).toHaveURL(/\/home$/);
+  await expect(page).toHaveURL((url) => url.pathname === APP_ROUTES.home);
 });
 
 test("announces the services loading state", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await authenticateUser(page);
 
-  await page.goto("/services", { waitUntil: "commit" });
+  await page.goto(APP_ROUTES.services, { waitUntil: "commit" });
 
   const servicesGrid = page.locator('[aria-busy="true"]').filter({
     hasText: "در حال بارگذاری خدمات"

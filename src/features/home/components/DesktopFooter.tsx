@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { APP_ROUTES } from "@/shared/constants/routes";
 
 type Props = {
   isVisible: boolean;
@@ -26,16 +27,16 @@ export function DesktopFooter({ isVisible }: Props) {
       </div>
       <div className="absolute inset-x-0 bottom-0 bg-shahrzad-primary px-28 py-4 text-white">
         <nav className="mx-auto flex h-20.25 max-w-264 items-center justify-center text-sm font-normal">
-          <Link href="/about-shahrzad" className="px-6 text-white!">
+          <Link href={APP_ROUTES.aboutShahrzad} className="px-6 text-white!">
             درباره شهرزاد
           </Link>
-          <Link href="/privacy" className="px-6 text-white!">
+          <Link href={APP_ROUTES.privacy} className="px-6 text-white!">
             قوانین سایت
           </Link>
           <Link href="https://shahrzadcity.ir/contact" className="px-6 text-white!">
             تماس با ما
           </Link>
-          <Link href="/faq" className="px-6 text-white!">
+          <Link href={APP_ROUTES.faq} className="px-6 text-white!">
             پرسش های متداول
           </Link>
           <Link href="https://shahrzadcity.ir/download-app" className="px-6 text-white!">

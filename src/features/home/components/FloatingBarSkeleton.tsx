@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { APP_ROUTES } from "@/shared/constants/routes";
 import { ScanBarcodeIcon } from "@/shared/ui/ScanBarcodeIcon";
 
 const FLOATING_BAR_SKELETON_ITEM_COUNT = 2;
@@ -26,7 +27,7 @@ export function FloatingBarSkeleton() {
           </div>
         ))}
         <Link
-          href="/qr-payment"
+          href={APP_ROUTES.qrPayment}
           aria-label="پرداخت با بارکد"
           className="shahrzad-floating-bar__center absolute left-1/2 top-1/2 flex h-17.5 w-17.5 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
           style={{ backgroundColor: "#eaf2fc", color: "#307fe2" }}

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { APP_ROUTES } from "@/shared/constants/routes";
 
 export default function NotFound() {
   return (
@@ -6,7 +7,7 @@ export default function NotFound() {
       <section className="w-full max-w-md rounded-2xl bg-white p-8 text-center tile-shadow">
         <h1 className="mb-3 text-xl font-bold">صفحه‌ای که به دنبالش هستید پیدا نشد!</h1>
         <p className="mb-6 text-sm text-neutral-500">لطفاً به صفحه اصلی بروید.</p>
-        <Link className="inline-flex rounded-xl bg-shahrzad-primary px-5 py-3 text-sm font-bold text-white" href="/home">
+        <Link className="inline-flex rounded-xl bg-shahrzad-primary px-5 py-3 text-sm font-bold text-white" href={APP_ROUTES.home}>
           صفحه اصلی
         </Link>
       </section>

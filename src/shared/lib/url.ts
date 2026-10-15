@@ -1,3 +1,5 @@
+import { APP_ROUTES } from "@/shared/constants/routes";
+
 const trustedOrigins = new Set([
   "https://shahrzadcity.ir",
   "https://www.shahrzadcity.ir",
@@ -5,7 +7,7 @@ const trustedOrigins = new Set([
   "https://static.shahrzadcity.ir"
 ]);
 
-export function safeHref(value: string | undefined, fallback = "/home"): string {
+export function safeHref(value: string | undefined, fallback = APP_ROUTES.home): string {
   if (!value) return fallback;
   if (isSafeInternalPath(value)) return value;
 
@@ -17,7 +19,7 @@ export function safeHref(value: string | undefined, fallback = "/home"): string 
   }
 }
 
-export function safeInternalPath(value: string | null, fallback = "/home"): string {
+export function safeInternalPath(value: string | null, fallback = APP_ROUTES.home): string {
   return value && isSafeInternalPath(value) ? value : fallback;
 }
 

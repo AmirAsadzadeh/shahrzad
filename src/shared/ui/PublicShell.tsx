@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft2 } from "iconsax-react";
+import { APP_ROUTES } from "@/shared/constants/routes";
 
 const footerLinks = [
-  { href: "/about-shahrzad", label: "درباره شهرزاد" },
-  { href: "/privacy", label: "قوانین سایت" },
+  { href: APP_ROUTES.aboutShahrzad, label: "درباره شهرزاد" },
+  { href: APP_ROUTES.privacy, label: "قوانین سایت" },
   { href: "https://shahrzadcity.ir/contact", label: "تماس با ما" },
-  { href: "/faq", label: "پرسش های متداول" },
+  { href: APP_ROUTES.faq, label: "پرسش های متداول" },
   { href: "https://shahrzadcity.ir/download-app", label: "اپلیکیشن موبایل" }
 ];
 
@@ -15,16 +16,16 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
     <main className="min-h-screen bg-white">
       <header className="shahrzad-pattern relative h-34 rounded-b-[18px] px-6 text-white">
         <nav className="fit-width flex h-16 items-center justify-between gap-6 text-sm font-bold">
-          <Link href="/login-register" aria-label="صفحه ورود">
+          <Link href={APP_ROUTES.loginRegister} aria-label="صفحه ورود">
             <span className="relative block h-8.5 w-23">
               <Image src="/assets/logo.svg" fill sizes="92px" alt="شهرزاد" />
             </span>
           </Link>
           <div className="flex items-center gap-10 text-white">
-            <Link className="text-white!" href="/faq">
+            <Link className="text-white!" href={APP_ROUTES.faq}>
               سوالات متداول
             </Link>
-            <Link className="text-white!" href="/about-shahrzad">
+            <Link className="text-white!" href={APP_ROUTES.aboutShahrzad}>
               درباره شهرزاد
             </Link>
           </div>
@@ -49,7 +50,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function PageTitle({ title, backHref = "/home" }: { title: string; backHref?: string }) {
+export function PageTitle({ title, backHref = APP_ROUTES.home }: { title: string; backHref?: string }) {
   return (
     <div className="mb-6 flex items-center justify-between rounded-2xl bg-white p-4 tile-shadow">
       <h1 className="text-base font-bold text-neutral-900">{title}</h1>

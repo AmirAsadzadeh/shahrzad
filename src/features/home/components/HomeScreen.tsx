@@ -7,6 +7,7 @@ import { useAuthSession } from "@/features/auth/public";
 import { HomeContent } from "@/features/home/components/HomeContent";
 import { HomePageLayout } from "@/features/home/components/HomePageLayout";
 import { useHomeData } from "@/features/home/hooks/useHomeData";
+import { APP_ROUTES } from "@/shared/constants/routes";
 
 export function HomeScreen() {
   const router = useRouter();
@@ -15,12 +16,12 @@ export function HomeScreen() {
   const { contentScrollRef, scrollToTop } = usePageScrollController();
 
   const handleViewAllServices = () => {
-    router.push("/services");
+    router.push(APP_ROUTES.services);
   };
 
   useEffect(() => {
     if (!sessionLoading && !authenticated) {
-      router.replace("/login-register?redirectTo=/home");
+      router.replace(APP_ROUTES.loginToHome);
     }
   }, [authenticated, router, sessionLoading]);
 

@@ -1,6 +1,7 @@
 import { Spin } from "antd";
 import { ArrowLeft2 } from "iconsax-react";
 import Link from "next/link";
+import { APP_ROUTES } from "@/shared/constants/routes";
 
 type Props = {
   isCompact?: boolean;
@@ -37,7 +38,7 @@ export function WalletAction({
 
   return (
     <Link
-      href="/wallet"
+      href={APP_ROUTES.wallet}
       className={`${className} transition hover:bg-white/20`}
     >
       {content}

@@ -8,6 +8,7 @@ import { NestedPageLayout } from "@/features/appShell/public";
 import { useAuthSession } from "@/features/auth/public";
 import { ServicesGrid } from "@/features/home/components/ServicesGrid";
 import { useHomeData } from "@/features/home/hooks/useHomeData";
+import { APP_ROUTES } from "@/shared/constants/routes";
 
 export function ServicesScreen() {
   const router = useRouter();
@@ -16,7 +17,7 @@ export function ServicesScreen() {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    if (!sessionLoading && !authenticated) router.replace("/login-register?redirectTo=/services");
+    if (!sessionLoading && !authenticated) router.replace(APP_ROUTES.loginToServices);
   }, [authenticated, router, sessionLoading]);
 
   const tiles = useMemo(() => {

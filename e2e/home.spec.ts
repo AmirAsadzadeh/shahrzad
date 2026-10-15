@@ -1,5 +1,6 @@
 import { expect, test } from "./testFixtures";
 import { authenticateUser } from "./helpers/authenticateUser";
+import { APP_ROUTES } from "@/shared/constants/routes";
 
 test.describe("home page responsive behavior", () => {
   test("supports carousel navigation and mobile header compaction", async ({ page }) => {
@@ -31,8 +32,8 @@ test.describe("home page responsive behavior", () => {
     const walletAction = floatingBar.getByRole("link", { name: "کیف پول" });
     const servicesAction = floatingBar.getByRole("link", { name: "خدمات" });
 
-    await expect(walletAction).toHaveAttribute("href", "/wallet");
-    await expect(servicesAction).toHaveAttribute("href", "/services");
+    await expect(walletAction).toHaveAttribute("href", APP_ROUTES.wallet);
+    await expect(servicesAction).toHaveAttribute("href", APP_ROUTES.services);
 
     const walletBox = await walletAction.boundingBox();
     const servicesBox = await servicesAction.boundingBox();
@@ -47,10 +48,10 @@ test.describe("home page responsive behavior", () => {
     await authenticateUser(page);
 
     await page.getByRole("button", { name: "مشاهده همه" }).click();
-    await expect(page).toHaveURL(/\/services$/);
+    await expect(page).toHaveURL((url) => url.pathname === APP_ROUTES.services);
 
     await page.goBack();
-    await expect(page).toHaveURL(/\/home$/);
+    await expect(page).toHaveURL((url) => url.pathname === APP_ROUTES.home);
 
     const scrollRegion = page.getByRole("region", { name: "محتوای صفحه اصلی" });
     const mobileLogo = page.locator('header a[aria-label="صفحه اصلی شهرزاد"].shahrzad-header-transition');
@@ -131,6 +132,9 @@ test.describe("home page responsive behavior", () => {
     await page.getByRole("button", { name: "حساب کاربری" }).click();
     await page.getByRole("menuitem", { name: "خروج" }).click();
 
-    await expect(page).toHaveURL(/\/login-register\?redirectTo=(?:%2F|\/)home/);
+    await expect(page).toHaveURL((url) =>
+      url.pathname === APP_ROUTES.loginRegister &&
+      url.searchParams.get("redirectTo") === APP_ROUTES.home
+    );
   });
 });

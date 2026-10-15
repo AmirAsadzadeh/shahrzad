@@ -11,6 +11,7 @@ import type { SessionResponse } from "@/entities/auth/model/types";
 import { requestOtp as sendOtpRequest, verifyOtp } from "@/features/auth/api/authApi";
 import { AUTH_SESSION_KEY } from "@/features/auth/model/session";
 import { getErrorMessage } from "@/shared/api/errors";
+import { APP_ROUTES } from "@/shared/constants/routes";
 import { safeInternalPath } from "@/shared/lib/url";
 import { PublicShell } from "@/shared/ui/PublicShell";
 
@@ -79,7 +80,7 @@ export function LoginRegisterScreen() {
           />
           <p className="text-center text-sm font-semibold text-neutral-700">
             ورود شما به منزله پذیرش{" "}
-            <Link href="/privacy" className="text-shahrzad-primary">
+            <Link href={APP_ROUTES.privacy} className="text-shahrzad-primary">
               شرایط و قوانین
             </Link>{" "}
             است!

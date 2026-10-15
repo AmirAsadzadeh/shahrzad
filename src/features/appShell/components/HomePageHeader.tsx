@@ -4,6 +4,7 @@ import Link from "next/link";
 import { DesktopHeaderNavigation } from "@/features/appShell/components/DesktopHeaderNavigation";
 import { HeaderAccountMenu } from "@/features/appShell/components/HeaderAccountMenu";
 import { WalletAction } from "@/features/appShell/components/WalletAction";
+import { APP_ROUTES } from "@/shared/constants/routes";
 import { ScanBarcodeIcon } from "@/shared/ui/ScanBarcodeIcon";
 
 type Props = {
@@ -35,7 +36,7 @@ export function HomePageHeader({
         <div className="relative h-21 md:hidden">
           {showAccount && <HeaderAccountMenu variant="mobile" />}
           <Link
-            href="/home"
+            href={APP_ROUTES.home}
             aria-label="صفحه اصلی شهرزاد"
             aria-hidden={isCompact}
             tabIndex={isCompact ? -1 : 0}

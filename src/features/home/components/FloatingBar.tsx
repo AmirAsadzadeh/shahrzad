@@ -1,19 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FloatingBarSkeleton } from "@/features/home/components/FloatingBarSkeleton";
+import { APP_ROUTES } from "@/shared/constants/routes";
 import { ScanBarcodeIcon } from "@/shared/ui/ScanBarcodeIcon";
 
 const floatingBarItems = [
   {
     id: "wallet",
     title: "کیف پول",
-    href: "/wallet",
+    href: APP_ROUTES.wallet,
     imageSrc: "https://static.shahrzadcity.ir/base/app_icon/6tmR8v6ZFB.png"
   },
   {
     id: "services",
     title: "خدمات",
-    href: "/services",
+    href: APP_ROUTES.services,
     imageSrc: "https://static.shahrzadcity.ir/base/app_icon/NCqyPU86u7.png"
   }
 ] as const;
@@ -48,7 +49,7 @@ export function FloatingBar({ loading }: Props) {
           </Link>
         ))}
         <Link
-          href="/qr-payment"
+          href={APP_ROUTES.qrPayment}
           aria-label="پرداخت با بارکد"
           className="shahrzad-floating-bar__center absolute left-1/2 top-1/2 flex h-17.5 w-17.5 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
           style={{ backgroundColor: "#eaf2fc", color: "#307fe2" }}

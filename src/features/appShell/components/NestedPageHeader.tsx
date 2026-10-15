@@ -2,6 +2,7 @@ import { Button } from "antd";
 import { ArrowRight2, Home2 } from "iconsax-react";
 import Link from "next/link";
 import { DesktopHeaderNavigation } from "@/features/appShell/components/DesktopHeaderNavigation";
+import { APP_ROUTES } from "@/shared/constants/routes";
 
 type Props = {
   isWalletLoading?: boolean;
@@ -29,7 +30,7 @@ export function NestedPageHeader({
 
         <div className="relative h-21 md:hidden">
           <Link
-            href="/home"
+            href={APP_ROUTES.home}
             aria-label="صفحه اصلی"
             className="absolute left-5 top-7 z-10 flex h-7 w-7 items-center justify-center text-white"
           >
