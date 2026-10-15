@@ -3,13 +3,21 @@
 import { Button, Input, Modal } from "antd";
 import { Happyemoji, Like1, MessageText } from "iconsax-react";
 import { useEffect, useState } from "react";
-import { getFeedbackVisibility, submitFeedback, type FeedbackRating } from "@/features/feedback/api/feedbackApi";
+import {
+  getFeedbackVisibility,
+  submitFeedback,
+  type FeedbackRating,
+} from "@/features/feedback/api/feedbackApi";
 import { getErrorMessage } from "@/shared/api/errors";
 
-const ratingOptions: { key: FeedbackRating; label: string; icon: typeof Like1 }[] = [
+const ratingOptions: {
+  key: FeedbackRating;
+  label: string;
+  icon: typeof Like1;
+}[] = [
   { key: "good", label: "خوب", icon: Like1 },
   { key: "normal", label: "معمولی", icon: MessageText },
-  { key: "bad", label: "بد", icon: Happyemoji }
+  { key: "bad", label: "بد", icon: Happyemoji },
 ];
 
 export function FeedbackModal() {
@@ -41,7 +49,13 @@ export function FeedbackModal() {
   };
 
   return (
-    <Modal title={done ? "نظر شما ثبت شد" : "نظرسنجی کاربران"} open={open} footer={null} onCancel={() => setOpen(false)} destroyOnHidden>
+    <Modal
+      title={done ? "نظر شما ثبت شد" : "نظرسنجی کاربران"}
+      open={open}
+      footer={null}
+      onCancel={() => setOpen(false)}
+      destroyOnHidden
+    >
       {done ? (
         <div className="flex flex-col items-center gap-5 text-center">
           <p className="text-sm leading-7 text-neutral-600">
@@ -67,7 +81,9 @@ export function FeedbackModal() {
                   aria-pressed={selected}
                   onClick={() => setRating(option.key)}
                   className={`flex flex-col items-center gap-2 rounded-2xl border p-4 text-sm font-semibold transition ${
-                    selected ? "border-shahrzad-primary bg-shahrzad-primary-soft text-shahrzad-primary" : "border-neutral-200 bg-neutral-50"
+                    selected
+                      ? "border-shahrzad-primary bg-shahrzad-primary-soft text-shahrzad-primary"
+                      : "border-neutral-200 bg-neutral-50"
                   }`}
                 >
                   <Icon size={30} variant="Bulk" />
@@ -85,8 +101,18 @@ export function FeedbackModal() {
               onChange={(event) => setDescription(event.target.value)}
             />
           )}
-          {error && <p role="alert" className="text-sm text-red-600">{error}</p>}
-          <Button type="primary" block disabled={!rating} loading={submitting} onClick={submit}>
+          {error && (
+            <p role="alert" className="text-sm text-red-600">
+              {error}
+            </p>
+          )}
+          <Button
+            type="primary"
+            block
+            disabled={!rating}
+            loading={submitting}
+            onClick={submit}
+          >
             ثبت بازخورد
           </Button>
         </div>
