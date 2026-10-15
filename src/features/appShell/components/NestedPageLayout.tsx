@@ -7,6 +7,7 @@ import { NestedPageHeader } from "@/features/appShell/components/NestedPageHeade
 import { PageFrame } from "@/features/appShell/components/PageFrame";
 
 type Props = {
+  backHref?: string;
   children: ReactNode;
   contentAriaLabel: string;
   footer?: ReactNode;
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export function NestedPageLayout({
+  backHref,
   children,
   contentAriaLabel,
   footer,
@@ -28,7 +30,14 @@ export function NestedPageLayout({
   title
 }: Props) {
   const router = useRouter();
-  const handleBack = () => router.back();
+  const handleBack = () => {
+    if (backHref) {
+      router.push(backHref);
+      return;
+    }
+
+    router.back();
+  };
 
   return (
     <PageFrame
