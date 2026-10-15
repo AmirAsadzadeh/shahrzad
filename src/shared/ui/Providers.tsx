@@ -5,6 +5,7 @@ import { ConfigProvider, App as AntApp } from "antd";
 import faIR from "antd/locale/fa_IR";
 import { SWRConfig } from "swr";
 import { isAppError } from "@/shared/api/errors";
+import { ToastProvider } from "@/shared/ui/ToastProvider";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -47,7 +48,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
               }
             }}
           >
-            {children}
+            <ToastProvider>{children}</ToastProvider>
           </SWRConfig>
         </AntApp>
       </ConfigProvider>

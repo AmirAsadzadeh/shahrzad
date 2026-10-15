@@ -1,6 +1,7 @@
 import axios, { type AxiosError } from "axios";
 import type { ApiErrorBody, ApiErrorCode, ApiResponse } from "@/shared/api/types";
 import { AppError } from "@/shared/api/errors";
+import { showErrorToast } from "@/shared/model/toastStore";
 
 const apiBaseUrl = "/api";
 
@@ -20,18 +21,22 @@ http.interceptors.response.use(
     const body = response.data as ApiResponse<unknown> | unknown;
 
     if (!isApiResponse(body)) {
-      throw new AppError("پاسخ دریافتی از سرور معتبر نیست.", {
-        status: 502,
-        code: "UPSTREAM_ERROR"
-      });
+      throwApiError(
+        new AppError("پاسخ دریافتی از سرور معتبر نیست.", {
+          status: 502,
+          code: "UPSTREAM_ERROR"
+        })
+      );
     }
 
     if (body.error) {
-      throw new AppError(body.error.message, {
-        status: response.status,
-        code: body.error.code,
-        details: body.error.details
-      });
+      throwApiError(
+        new AppError(body.error.message, {
+          status: response.status,
+          code: body.error.code,
+          details: body.error.details
+        })
+      );
     }
 
     return body.data as never;
@@ -40,16 +45,24 @@ http.interceptors.response.use(
     const responseBody = error.response?.data;
     const responseError = isApiResponse(responseBody) ? responseBody.error : null;
 
-    throw new AppError(
-      responseError?.message || (error.request ? "ارتباط با سرور برقرار نشد." : "خطای غیرمنتظره‌ای رخ داد."),
-      {
-        status: error.response?.status ?? 503,
-        code: responseError?.code ?? "UPSTREAM_ERROR",
-        details: responseError?.details
-      }
+    throwApiError(
+      new AppError(
+        responseError?.message ||
+          (error.request ? "ارتباط با سرور برقرار نشد." : "خطای غیرمنتظره‌ای رخ داد."),
+        {
+          status: error.response?.status ?? 503,
+          code: responseError?.code ?? "UPSTREAM_ERROR",
+          details: responseError?.details
+        }
+      )
     );
   }
 );
+
+function throwApiError(error: AppError): never {
+  showErrorToast(error.message);
+  throw error;
+}
 
 function isApiResponse(value: unknown): value is ApiResponse<unknown> {
   return Boolean(
