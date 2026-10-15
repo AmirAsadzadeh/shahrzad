@@ -39,18 +39,12 @@ export function HomeContent({
             title="خدمات شهرزاد"
           />
 
-          {Boolean(error) && (
-            <Alert
-              type="error"
-              showIcon
-              message="خطا در بارگذاری اطلاعات"
-              description="متاسفانه مشکلی در نمایش خدمات پیش آمده، لطفا دوباره تلاش کنید."
-              action={<Button onClick={onRefresh}>تلاش دوباره</Button>}
-              className="mb-5"
-            />
-          )}
-
-          <ServiceGrid isLoading={loading} tiles={data?.tiles ?? []} />
+          <HomeServices
+            data={data}
+            error={error}
+            isLoading={loading}
+            onRetry={onRefresh}
+          />
 
           <BackToTopButton onClick={onScrollToTop} />
         </div>
@@ -70,5 +64,43 @@ export function HomeContent({
 
       <div aria-hidden="true" className="hidden h-69.5 md:block" />
     </>
+  );
+}
+
+type HomeServicesProps = {
+  data?: HomePayload;
+  error: unknown;
+  isLoading: boolean;
+  onRetry: () => void;
+};
+
+function HomeServices({
+  data,
+  error,
+  isLoading,
+  onRetry
+}: HomeServicesProps) {
+  if (error && !data) {
+    return <HomeServicesError onRetry={onRetry} />;
+  }
+
+  return (
+    <>
+      {error && <HomeServicesError onRetry={onRetry} />}
+      <ServiceGrid isLoading={isLoading} tiles={data?.tiles ?? []} />
+    </>
+  );
+}
+
+function HomeServicesError({ onRetry }: { onRetry: () => void }) {
+  return (
+    <Alert
+      type="error"
+      showIcon
+      message="خطا در بارگذاری اطلاعات"
+      description="متاسفانه مشکلی در نمایش خدمات پیش آمده، لطفا دوباره تلاش کنید."
+      action={<Button onClick={onRetry}>تلاش دوباره</Button>}
+      className="mb-5"
+    />
   );
 }

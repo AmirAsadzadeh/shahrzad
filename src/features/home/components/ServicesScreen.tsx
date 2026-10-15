@@ -13,7 +13,7 @@ import { PageTitle } from "@/shared/ui/PublicShell";
 export function ServicesScreen() {
   const router = useRouter();
   const { authenticated, loading: sessionLoading } = useAuthSession();
-  const { data, loading } = useHomeData(authenticated);
+  const { data, error, loading, refresh } = useHomeData(authenticated);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
@@ -42,7 +42,12 @@ export function ServicesScreen() {
             onChange={(event) => setQuery(event.target.value)}
             className="mb-6"
           />
-          <ServicesGrid isLoading={loading} tiles={tiles} />
+          <ServicesGrid
+            error={error}
+            isLoading={loading}
+            onRetry={() => void refresh()}
+            tiles={tiles}
+          />
         </div>
       </section>
     </AppPageLayout>

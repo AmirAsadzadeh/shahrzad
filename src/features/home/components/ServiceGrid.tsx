@@ -10,6 +10,7 @@ type Props = {
 export function ServiceGrid({ isLoading, tiles }: Props) {
   return (
     <div
+      aria-busy={isLoading}
       className={`grid grid-cols-4 justify-items-stretch gap-y-4 md:gap-x-12 lg:gap-x-20 ${isLoading ? "md:gap-y-12" : "md:gap-y-14"}`}
     >
       <ServiceGridContent isLoading={isLoading} tiles={tiles} />
@@ -18,7 +19,16 @@ export function ServiceGrid({ isLoading, tiles }: Props) {
 }
 
 function ServiceGridContent({ isLoading, tiles }: Props) {
-  if (isLoading) return <ServiceGridSkeleton />;
+  if (isLoading) {
+    return (
+      <>
+        <span className="sr-only" role="status">
+          در حال بارگذاری خدمات
+        </span>
+        <ServiceGridSkeleton />
+      </>
+    );
+  }
 
   if (tiles.length === 0) {
     return (
