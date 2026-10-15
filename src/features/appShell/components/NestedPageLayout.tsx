@@ -46,7 +46,7 @@ export function NestedPageLayout({
       isMobileBackdropRaised
       overlays={overlays}
     >
-      <section className="fit-width relative z-20 md:-mt-12 md:max-w-225 md:px-0">
+      <section className="fit-width relative z-20 md:max-w-225 md:px-0">
         <div className="shahrzad-home-panel min-h-160 rounded-t-[22px] bg-white p-3 md:px-3 md:pb-14 md:pt-3">
           <NestedPageHeading onBack={handleBack} title={title} />
           {children}

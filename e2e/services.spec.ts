@@ -37,7 +37,7 @@ test("services page uses the mobile nested-page header", async ({ page }) => {
 });
 
 test("services page keeps the full desktop header and container back action", async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.setViewportSize({ width: 1280, height: 500 });
   await authenticateUser(page);
 
   await page.getByRole("button", { name: "مشاهده همه" }).click();
@@ -48,6 +48,16 @@ test("services page keeps the full desktop header and container back action", as
   await expect(page.getByRole("link", { name: "کیف پول" })).toBeVisible();
   await expect(page.getByRole("button", { name: "باز کردن منوی حساب کاربری" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "خدمات شهرزاد" })).toBeVisible();
+
+  const scrollRegion = page.getByRole("region", { name: "محتوای خدمات شهرزاد" });
+  await expect.poll(() => scrollRegion.evaluate(
+    (element) => getComputedStyle(element).overflowY
+  )).toBe("auto");
+  await scrollRegion.evaluate((element) =>
+    element.scrollTo({ top: element.scrollHeight, behavior: "instant" })
+  );
+  await expect.poll(() => scrollRegion.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 
   await page.getByRole("button", { name: "بازگشت" }).click();
   await expect(page).toHaveURL((url) => url.pathname === APP_ROUTES.home);

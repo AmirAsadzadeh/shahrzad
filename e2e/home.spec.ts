@@ -88,7 +88,10 @@ test.describe("home page responsive behavior", () => {
     const footer = page.locator("footer");
     await expect(desktopNavigation).toBeVisible();
 
-    await page.evaluate(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "instant" }));
+    const desktopScrollRegion = page.getByRole("region", { name: "محتوای صفحه اصلی" });
+    await desktopScrollRegion.evaluate((element) =>
+      element.scrollTo({ top: element.scrollHeight, behavior: "instant" })
+    );
     await expect(footer).toHaveAttribute("aria-hidden", "false");
 
     await page.setViewportSize({ width: 390, height: 844 });
@@ -104,28 +107,23 @@ test.describe("home page responsive behavior", () => {
     await expect(footer).toHaveAttribute("aria-hidden", "true");
   });
 
-  test("scrolls the desktop document back to the top", async ({ page }) => {
+  test("scrolls the desktop content region back to the top", async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await authenticateUser(page);
     await expect(page.getByRole("heading", { name: "خدمات شهرزاد" })).toBeVisible();
-    await expect
-      .poll(() =>
-        page.evaluate(
-          () => document.documentElement.scrollHeight > window.innerHeight
-        )
-      )
-      .toBe(true);
+    const scrollRegion = page.getByRole("region", { name: "محتوای صفحه اصلی" });
+    await expect.poll(() => scrollRegion.evaluate(
+      (element) => element.scrollHeight > element.clientHeight
+    )).toBe(true);
 
-    await page.evaluate(() =>
-      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" })
+    await scrollRegion.evaluate((element) =>
+      element.scrollTo({ top: element.scrollHeight, behavior: "instant" })
     );
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
-    await expect
-      .poll(() => page.locator("header").evaluate((element) => element.getBoundingClientRect().top))
-      .toBe(0);
+    await expect.poll(() => scrollRegion.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 
     await page.getByRole("button", { name: "بازگشت به بالا" }).click();
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(2);
+    await expect.poll(() => scrollRegion.evaluate((element) => element.scrollTop)).toBeLessThan(2);
   });
 
   test("logs out through the shared account menu", async ({ page }) => {

@@ -22,7 +22,7 @@ export function HomePageHeader({
 }: Props) {
   return (
     <header
-      className={`shahrzad-header-pattern shahrzad-header-transition relative z-10 shrink-0 overflow-visible px-0 text-white md:sticky md:top-0 md:z-30 md:h-34 md:overflow-visible md:rounded-b-2xl md:px-6 ${
+      className={`shahrzad-header-pattern shahrzad-header-transition relative z-10 shrink-0 overflow-visible px-0 text-white md:h-34 md:overflow-visible md:rounded-b-2xl md:px-6 ${
         isCompact ? "h-31.5" : "h-50"
       }`}
     >
