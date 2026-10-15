@@ -2,24 +2,17 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { AppPageLayout, usePageScrollController } from "@/features/appShell/public";
+import { usePageScrollController } from "@/features/appShell/public";
 import { useAuthSession } from "@/features/auth/public";
-import { FeedbackModal } from "@/features/feedback/public";
-import { DesktopFooter } from "@/features/home/components/DesktopFooter";
-import { FloatingBar } from "@/features/home/components/FloatingBar";
 import { HomeContent } from "@/features/home/components/HomeContent";
+import { HomePageLayout } from "@/features/home/components/HomePageLayout";
 import { useHomeData } from "@/features/home/hooks/useHomeData";
-import { useHomeViewport } from "@/features/home/hooks/useHomeViewport";
 
 export function HomeScreen() {
   const router = useRouter();
   const { authenticated, loading: sessionLoading } = useAuthSession();
   const { data, loading, error, refresh } = useHomeData(authenticated);
   const { contentScrollRef, scrollToTop } = usePageScrollController();
-  const { handleContentScroll, isHeaderCompact, isDesktopFooterVisible } = useHomeViewport({
-    authenticated,
-    contentScrollRef
-  });
 
   const handleViewAllServices = () => {
     router.push("/services");
@@ -36,20 +29,10 @@ export function HomeScreen() {
   }
 
   return (
-    <AppPageLayout
-      contentAriaLabel="محتوای صفحه اصلی"
+    <HomePageLayout
       contentScrollRef={contentScrollRef}
-      footer={<DesktopFooter isVisible={isDesktopFooterVisible} />}
-      headerMode="collapsible"
-      isHeaderCompact={isHeaderCompact}
+      isFloatingBarLoading={loading}
       isWalletLoading={loading}
-      onContentScroll={handleContentScroll}
-      overlays={
-        <>
-          <FloatingBar tiles={data?.floatingBarTiles} loading={loading} />
-          <FeedbackModal />
-        </>
-      }
     >
       <HomeContent
         data={data}
@@ -59,6 +42,6 @@ export function HomeScreen() {
         onScrollToTop={scrollToTop}
         onViewAllServices={handleViewAllServices}
       />
-    </AppPageLayout>
+    </HomePageLayout>
   );
 }

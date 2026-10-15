@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState, type RefObject, type UIEvent } from "
 import { isMobileViewport } from "@/shared/lib/mediaQuery";
 
 type Options = {
-  authenticated: boolean;
   contentScrollRef: RefObject<HTMLDivElement | null>;
 };
 
@@ -24,7 +23,7 @@ function getHeaderCompactState(wasCompact: boolean, scrollPosition: number) {
   return wasCompact;
 }
 
-export function useHomeViewport({ authenticated, contentScrollRef }: Options): HomeViewportState {
+export function useHomeViewport({ contentScrollRef }: Options): HomeViewportState {
   const [isHeaderCompact, setIsHeaderCompact] = useState(false);
   const [isDesktopFooterVisible, setIsDesktopFooterVisible] = useState(false);
 
@@ -36,8 +35,6 @@ export function useHomeViewport({ authenticated, contentScrollRef }: Options): H
   }, []);
 
   useEffect(() => {
-    if (!authenticated) return;
-
     const updateDesktopFooter = () => {
       if (isMobileViewport()) {
         setIsDesktopFooterVisible(false);
@@ -94,7 +91,7 @@ export function useHomeViewport({ authenticated, contentScrollRef }: Options): H
       window.removeEventListener("resize", handleViewportChange);
       window.removeEventListener("pageshow", handlePageShow);
     };
-  }, [authenticated, contentScrollRef]);
+  }, [contentScrollRef]);
 
   return { handleContentScroll, isHeaderCompact, isDesktopFooterVisible };
 }

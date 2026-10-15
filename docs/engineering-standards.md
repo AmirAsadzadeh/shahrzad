@@ -203,6 +203,7 @@ These rules are framework behavior, not optional style preferences.
 - Interactive buttons need `type="button"` unless they intentionally submit a form.
 - Use stable dimensions for fixed-format UI such as tiles, skeletons, toolbars, and navigation controls.
 - Keep responsive behavior in the component that owns the layout. Do not scatter breakpoint fixes across unrelated files.
+- Keep `HomePageLayout` in `src/features/home` because it owns Home-specific viewport, header, footer, and overlay composition. Use `NestedPageLayout` from `src/features/appShell` for authenticated pages below Home; it provides the static mobile page title, Home action, and Back action while preserving the full desktop header and in-container title/back navigation.
 - Avoid nested cards, decorative blobs, unexplained gradients, and one-color visual systems.
 - Keep text inside its container at mobile and desktop widths. Test long labels and RTL alignment.
 
