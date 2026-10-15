@@ -5,18 +5,9 @@ export type WalletType = "pelican" | "shahrzad" | "all";
 export type ServiceTile = {
   id: number;
   title: string;
-  icon: string;
-  image?: string;
+  image: string;
   url: string;
   order: number;
-  authMethod: AuthMethod;
-  walletType: WalletType[];
-  tag?: {
-    title: string;
-    colorCode: string;
-  };
-  hasNotification?: boolean;
-  words?: string[];
   child?: ServiceTile[];
 };
 
@@ -31,6 +22,5 @@ export type Banner = {
 
 export type HomePayload = {
   tiles: ServiceTile[];
-  floatingBarTiles: ServiceTile[];
   banners: Banner[];
 };
