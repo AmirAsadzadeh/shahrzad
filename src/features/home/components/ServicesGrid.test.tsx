@@ -5,7 +5,7 @@ import { ServicesGrid } from "@/features/home/components/ServicesGrid";
 describe("ServicesGrid", () => {
   it("renders an announced loading state with layout-matched skeletons", () => {
     const markup = renderToStaticMarkup(
-      <ServicesGrid error={undefined} isLoading tiles={[]} />
+      <ServicesGrid error={undefined} isLoading onRetry={() => undefined} tiles={[]} />
     );
 
     expect(markup).toContain('aria-busy="true"');
@@ -13,16 +13,18 @@ describe("ServicesGrid", () => {
     expect(markup.match(/aria-hidden="true"/g)).toHaveLength(24);
   });
 
-  it("does not render a failed request as an empty result", () => {
+  it("renders a retryable error instead of an empty result", () => {
     const markup = renderToStaticMarkup(
       <ServicesGrid
         error={new Error("request failed")}
         isLoading={false}
+        onRetry={() => undefined}
         tiles={[]}
       />
     );
 
-    expect(markup).toBe("");
+    expect(markup).toContain("دریافت خدمات شهرزاد انجام نشد.");
+    expect(markup).toContain("تلاش دوباره");
     expect(markup).not.toContain("خدمتی برای نمایش وجود ندارد");
   });
 
@@ -31,6 +33,7 @@ describe("ServicesGrid", () => {
       <ServicesGrid
         error={undefined}
         isLoading={false}
+        onRetry={() => undefined}
         tiles={[]}
       />
     );

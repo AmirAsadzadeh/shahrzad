@@ -18,6 +18,6 @@ export function useAuthSession() {
     loading: isLoading,
     validating: isValidating,
     error,
-    refresh: mutate,
+    refresh: () => mutate(),
   };
 }

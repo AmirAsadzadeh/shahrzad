@@ -5,14 +5,14 @@ import { SearchNormal1 } from "iconsax-react";
 import { redirect } from "next/navigation";
 import { useMemo, useState } from "react";
 import { NestedPageLayout } from "@/features/appShell/public";
-import { useAuthSession } from "@/features/auth/public";
+import { SessionLoadError, useAuthSession } from "@/features/auth/public";
 import { ServicesGrid } from "@/features/home/components/ServicesGrid";
 import { useHomeData } from "@/features/home/hooks/useHomeData";
 import { APP_ROUTES } from "@/shared/constants/routes";
 
 export function ServicesScreen() {
-  const { authenticated, loading: sessionLoading } = useAuthSession();
-  const { data, error, loading } = useHomeData(authenticated);
+  const { authenticated, error: sessionError, loading: sessionLoading, refresh: refreshSession } = useAuthSession();
+  const { data, error, loading, refresh: refreshHomeData } = useHomeData(authenticated);
   const [query, setQuery] = useState("");
 
   const tiles = useMemo(() => {
@@ -22,6 +22,7 @@ export function ServicesScreen() {
   }, [data?.tiles, query]);
 
   if (sessionLoading) return null;
+  if (sessionError) return <SessionLoadError onRetry={() => void refreshSession()} />;
   if (!authenticated) redirect(APP_ROUTES.loginToServices);
 
   return (
@@ -41,6 +42,7 @@ export function ServicesScreen() {
       <ServicesGrid
         error={error}
         isLoading={loading}
+        onRetry={() => void refreshHomeData()}
         tiles={tiles}
       />
     </NestedPageLayout>
