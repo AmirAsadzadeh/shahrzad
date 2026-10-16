@@ -4,10 +4,9 @@ export type AuthUser = {
   mobile: string;
 };
 
-export type SessionResponse = {
-  authenticated: boolean;
-  user: AuthUser | null;
-};
+export type SessionResponse =
+  | { authenticated: true; user: AuthUser }
+  | { authenticated: false; user: null };
 
 export type OtpRequestResponse = {
   status: "login";

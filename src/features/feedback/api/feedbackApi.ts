@@ -1,4 +1,5 @@
 import { http } from "@/shared/api/http";
+import { isRecord, parseApiData } from "@/shared/api/parseApiData";
 
 export type FeedbackRating = "good" | "normal" | "bad";
 
@@ -15,10 +16,20 @@ export type FeedbackSubmission = {
   submitted: boolean;
 };
 
-export function getFeedbackVisibility(): Promise<FeedbackVisibility> {
-  return http.get<never, FeedbackVisibility>("/feedback");
+export async function getFeedbackVisibility(): Promise<FeedbackVisibility> {
+  const data = await http.get<never, unknown>("/feedback");
+  return parseApiData(data, isFeedbackVisibility);
 }
 
-export function submitFeedback(input: FeedbackInput): Promise<FeedbackSubmission> {
-  return http.post<never, FeedbackSubmission>("/feedback", input);
+export async function submitFeedback(input: FeedbackInput): Promise<FeedbackSubmission> {
+  const data = await http.post<never, unknown>("/feedback", input);
+  return parseApiData(data, isFeedbackSubmission);
+}
+
+function isFeedbackVisibility(value: unknown): value is FeedbackVisibility {
+  return isRecord(value) && typeof value.showModal === "boolean";
+}
+
+function isFeedbackSubmission(value: unknown): value is FeedbackSubmission {
+  return isRecord(value) && typeof value.submitted === "boolean";
 }
