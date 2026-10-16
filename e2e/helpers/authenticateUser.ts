@@ -16,6 +16,5 @@ export async function authenticateUser(page: Page): Promise<void> {
   await expect(page.getByText(/یک پیامک حاوی کد اعتبارسنجی/)).toBeVisible();
 
   await page.getByLabel("کد اعتبارسنجی").locator("input").first().pressSequentially(TEST_OTP);
-  await page.getByRole("button", { name: "تایید" }).click();
   await expect(page).toHaveURL((url) => url.pathname === APP_ROUTES.home);
 }

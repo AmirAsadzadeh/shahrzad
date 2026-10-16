@@ -1,33 +1,27 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { redirect, useRouter } from "next/navigation";
 import { usePageScrollController } from "@/features/appShell/public";
-import { useAuthSession } from "@/features/auth/public";
+import { SessionLoadError, useAuthSession } from "@/features/auth/public";
 import { HomeContent } from "@/features/home/components/HomeContent";
 import { HomePageLayout } from "@/features/home/components/HomePageLayout";
+import { HomePageSkeleton } from "@/features/home/components/HomePageSkeleton";
 import { useHomeData } from "@/features/home/hooks/useHomeData";
 import { APP_ROUTES } from "@/shared/constants/routes";
 
 export function HomeScreen() {
   const router = useRouter();
-  const { authenticated, loading: sessionLoading } = useAuthSession();
-  const { data, loading, error } = useHomeData(authenticated);
+  const { authenticated, error: sessionError, loading: sessionLoading, refresh: refreshSession } = useAuthSession();
+  const { data, loading, error, refresh: refreshHomeData } = useHomeData(authenticated);
   const { contentScrollRef, scrollToTop } = usePageScrollController();
 
   const handleViewAllServices = () => {
     router.push(APP_ROUTES.services);
   };
 
-  useEffect(() => {
-    if (!sessionLoading && !authenticated) {
-      router.replace(APP_ROUTES.loginToHome);
-    }
-  }, [authenticated, router, sessionLoading]);
-
-  if (sessionLoading || !authenticated) {
-    return null;
-  }
+  if (sessionLoading) return <HomePageSkeleton />;
+  if (sessionError) return <SessionLoadError onRetry={() => void refreshSession()} />;
+  if (!authenticated) redirect(APP_ROUTES.loginToHome);
 
   return (
     <HomePageLayout
@@ -39,6 +33,7 @@ export function HomeScreen() {
         data={data}
         error={error}
         loading={loading}
+        onRetryServices={() => void refreshHomeData()}
         onScrollToTop={scrollToTop}
         onViewAllServices={handleViewAllServices}
       />

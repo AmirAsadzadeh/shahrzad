@@ -1,7 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useState, type RefObject, type UIEvent } from "react";
-import { isMobileViewport } from "@/shared/lib/mediaQuery";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type RefObject,
+  type UIEvent,
+} from "react";
+import { MOBILE_VIEWPORT_QUERY } from "@/shared/lib/mediaQuery";
 
 type Options = {
   contentScrollRef: RefObject<HTMLDivElement | null>;
@@ -32,47 +39,63 @@ function isScrolledToEnd(element: HTMLDivElement) {
 export function useHomeViewport({ contentScrollRef }: Options): HomeViewportState {
   const [isHeaderCompact, setIsHeaderCompact] = useState(false);
   const [isDesktopFooterVisible, setIsDesktopFooterVisible] = useState(false);
+  const isMobileViewportRef = useRef(false);
+  const scrollFrameRef = useRef<number | null>(null);
 
-  const handleContentScroll = useCallback((event: UIEvent<HTMLDivElement>) => {
-    const contentScroller = event.currentTarget;
-
-    if (!isMobileViewport()) {
+  const updateViewportState = useCallback((contentScroller: HTMLDivElement) => {
+    if (!isMobileViewportRef.current) {
       setIsHeaderCompact(false);
       setIsDesktopFooterVisible(isScrolledToEnd(contentScroller));
       return;
     }
 
     setIsDesktopFooterVisible(false);
-    const scrollPosition = contentScroller.scrollTop;
-    setIsHeaderCompact((wasCompact) => getHeaderCompactState(wasCompact, scrollPosition));
+    setIsHeaderCompact((wasCompact) =>
+      getHeaderCompactState(wasCompact, contentScroller.scrollTop)
+    );
   }, []);
 
+  const handleContentScroll = useCallback((event: UIEvent<HTMLDivElement>) => {
+    const contentScroller = event.currentTarget;
+
+    if (scrollFrameRef.current !== null) return;
+
+    scrollFrameRef.current = window.requestAnimationFrame(() => {
+      scrollFrameRef.current = null;
+      updateViewportState(contentScroller);
+    });
+  }, [updateViewportState]);
+
   useEffect(() => {
+    const mobileViewportQuery = window.matchMedia(MOBILE_VIEWPORT_QUERY);
+
     const updateFromContent = () => {
       const contentScroller = contentScrollRef.current;
       if (!contentScroller) return;
 
-      if (!isMobileViewport()) {
-        setIsHeaderCompact(false);
-        setIsDesktopFooterVisible(isScrolledToEnd(contentScroller));
-        return;
-      }
-
-      setIsDesktopFooterVisible(false);
-      setIsHeaderCompact((wasCompact) =>
-        getHeaderCompactState(wasCompact, contentScroller.scrollTop)
-      );
+      updateViewportState(contentScroller);
     };
 
-    updateFromContent();
+    const updateViewport = () => {
+      isMobileViewportRef.current = mobileViewportQuery.matches;
+      updateFromContent();
+    };
+
+    updateViewport();
+    mobileViewportQuery.addEventListener("change", updateViewport);
     window.addEventListener("resize", updateFromContent, { passive: true });
     window.addEventListener("pageshow", updateFromContent);
 
     return () => {
+      if (scrollFrameRef.current !== null) {
+        window.cancelAnimationFrame(scrollFrameRef.current);
+      }
+
+      mobileViewportQuery.removeEventListener("change", updateViewport);
       window.removeEventListener("resize", updateFromContent);
       window.removeEventListener("pageshow", updateFromContent);
     };
-  }, [contentScrollRef]);
+  }, [contentScrollRef, updateViewportState]);
 
   return { handleContentScroll, isHeaderCompact, isDesktopFooterVisible };
 }

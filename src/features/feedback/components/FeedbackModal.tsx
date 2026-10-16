@@ -3,7 +3,7 @@
 import { Button, Input, Modal } from "antd";
 import { Happyemoji, Like1, MessageText } from "iconsax-react";
 import { useState } from "react";
-import type { FeedbackRating } from "@/features/feedback/api/feedbackApi";
+import type { FeedbackRating } from "@/entities/feedback/model/types";
 import { useFeedbackVisibility } from "@/features/feedback/hooks/useFeedbackVisibility";
 import { useSubmitFeedback } from "@/features/feedback/hooks/useSubmitFeedback";
 import { getErrorMessage } from "@/shared/api/errors";

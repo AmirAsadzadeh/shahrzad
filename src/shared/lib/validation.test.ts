@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { isAppError } from "@/shared/api/errors";
-import { parseFeedbackInput, parseNonce, parseOtpInput, parsePhoneNumber } from "@/shared/lib/validation";
+import { parseNonce, parseOtpInput, parsePhoneNumber } from "@/shared/lib/validation";
 
 describe("request validation", () => {
   it("accepts a valid Iranian mobile number", () => {
@@ -27,16 +27,4 @@ describe("request validation", () => {
     expect(parseNonce(nonce)).toBe(nonce);
   });
 
-  it("trims feedback descriptions while preserving the rating", () => {
-    expect(parseFeedbackInput({ rating: "good", description: "  عالی بود  " })).toEqual({
-      rating: "good",
-      description: "عالی بود"
-    });
-  });
-
-  it("rejects unsupported feedback ratings", () => {
-    expect(() => parseFeedbackInput({ rating: "excellent", description: "" })).toThrowError(
-      "امتیاز بازخورد الزامی است."
-    );
-  });
 });

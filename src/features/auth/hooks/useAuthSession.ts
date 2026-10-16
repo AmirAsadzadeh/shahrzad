@@ -15,8 +15,9 @@ export function useAuthSession() {
   return {
     user: data?.user ?? null,
     authenticated: data?.authenticated ?? false,
-    loading: isLoading || isValidating,
+    loading: isLoading,
+    validating: isValidating,
     error,
-    refresh: mutate,
+    refresh: () => mutate(),
   };
 }

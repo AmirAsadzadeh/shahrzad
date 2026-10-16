@@ -1,10 +1,8 @@
 "use client";
 
 import useSWRMutation from "swr/mutation";
-import {
-  submitFeedback,
-  type FeedbackInput,
-} from "@/features/feedback/api/feedbackApi";
+import type { FeedbackInput } from "@/entities/feedback/model/types";
+import { submitFeedback } from "@/features/feedback/api/feedbackApi";
 
 const FEEDBACK_SUBMISSION_KEY = "feedback/submission";
 
