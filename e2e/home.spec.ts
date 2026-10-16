@@ -3,6 +3,30 @@ import { authenticateUser } from "./helpers/authenticateUser";
 import { APP_ROUTES } from "@/shared/constants/routes";
 
 test.describe("home page responsive behavior", () => {
+  test("fits narrow screens and switches navigation at the desktop breakpoint", async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 700 });
+    await authenticateUser(page);
+
+    await expect(page.getByRole("heading", { name: "خدمات شهرزاد" })).toBeVisible();
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.scrollWidth))
+      .toBe(320);
+
+    const desktopNavigation = page.locator("header nav");
+    const mobileLogo = page.locator('header a[aria-label="صفحه اصلی شهرزاد"].shahrzad-header-transition');
+
+    await page.setViewportSize({ width: 767, height: 800 });
+    await expect(desktopNavigation).toBeHidden();
+    await expect(mobileLogo).toBeVisible();
+
+    await page.setViewportSize({ width: 768, height: 800 });
+    await expect(desktopNavigation).toBeVisible();
+    await expect(mobileLogo).toBeHidden();
+    await expect
+      .poll(() => page.evaluate(() => document.documentElement.scrollWidth))
+      .toBe(768);
+  });
+
   test("supports carousel navigation and mobile header compaction", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await authenticateUser(page);
