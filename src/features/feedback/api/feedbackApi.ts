@@ -1,12 +1,6 @@
+import type { FeedbackInput } from "@/entities/feedback/model/types";
 import { http } from "@/shared/api/http";
 import { isRecord, parseApiData } from "@/shared/api/parseApiData";
-
-export type FeedbackRating = "good" | "normal" | "bad";
-
-export type FeedbackInput = {
-  rating: FeedbackRating;
-  description: string;
-};
 
 export type FeedbackVisibility = {
   showModal: boolean;

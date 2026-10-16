@@ -3,7 +3,8 @@ import type { AuthUser } from "@/entities/auth/model/types";
 import type { ApiFailure, ApiSuccess } from "@/shared/api/types";
 import { AppError, isAppError } from "@/shared/api/errors";
 import { enforceRateLimit } from "@/shared/lib/rateLimit";
-import { parseFeedbackInput, parseNonce, parseOtpInput, parsePhoneNumber } from "@/shared/lib/validation";
+import { parseNonce, parseOtpInput, parsePhoneNumber } from "@/shared/lib/validation";
+import { parseFeedbackInput } from "@/mocks/feedbackValidation";
 import { homePayload } from "@/mocks/homePayload";
 
 const SESSION_COOKIE_NAME = "shahrzad_session";
