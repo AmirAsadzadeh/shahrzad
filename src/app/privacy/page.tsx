@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import { APP_ROUTES } from "@/shared/constants/routes";
 import { PageTitle, PublicShell } from "@/shared/ui/PublicShell";
+
+export const metadata: Metadata = {
+  title: "قوانین سایت",
+  description: "قوانین و شرایط استفاده از سامانه شهرزاد.",
+  openGraph: {
+    title: "قوانین سایت",
+    description: "قوانین و شرایط استفاده از سامانه شهرزاد."
+  }
+};
 
 export default function PrivacyPage() {
   return (

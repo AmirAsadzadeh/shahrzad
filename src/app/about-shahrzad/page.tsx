@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import { APP_ROUTES } from "@/shared/constants/routes";
 import { PageTitle, PublicShell } from "@/shared/ui/PublicShell";
+
+export const metadata: Metadata = {
+  title: "درباره شهرزاد",
+  description: "با شهرزاد، درگاه یکپارچه خدمات شهری تهران، بیشتر آشنا شوید.",
+  openGraph: {
+    title: "درباره شهرزاد",
+    description: "با شهرزاد، درگاه یکپارچه خدمات شهری تهران، بیشتر آشنا شوید."
+  }
+};
 
 export default function AboutPage() {
   return (

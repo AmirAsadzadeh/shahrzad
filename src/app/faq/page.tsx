@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import { APP_ROUTES } from "@/shared/constants/routes";
 import { PageTitle, PublicShell } from "@/shared/ui/PublicShell";
+
+export const metadata: Metadata = {
+  title: "سوالات متداول",
+  description: "پاسخ سوالات متداول درباره ورود و استفاده از خدمات شهرزاد.",
+  openGraph: {
+    title: "سوالات متداول",
+    description: "پاسخ سوالات متداول درباره ورود و استفاده از خدمات شهرزاد."
+  }
+};
 
 export default function FaqPage() {
   return (

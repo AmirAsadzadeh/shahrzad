@@ -11,8 +11,19 @@ const vazirmatn = Vazirmatn({
 });
 
 export const metadata: Metadata = {
-  title: "شهرزاد",
-  description: "بازآفرینی صفحه اصلی شهرزاد"
+  applicationName: "شهرزاد",
+  title: {
+    default: "شهرزاد",
+    template: "%s | شهرزاد"
+  },
+  description: "درگاه یکپارچه دسترسی به خدمات شهری و پرداخت‌های روزمره شهروندان.",
+  openGraph: {
+    type: "website",
+    locale: "fa_IR",
+    siteName: "شهرزاد",
+    title: "شهرزاد",
+    description: "درگاه یکپارچه دسترسی به خدمات شهری و پرداخت‌های روزمره شهروندان."
+  }
 };
 
 export const viewport: Viewport = {
