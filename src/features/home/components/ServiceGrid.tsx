@@ -11,7 +11,7 @@ export function ServiceGrid({ isLoading, tiles }: Props) {
   return (
     <div
       aria-busy={isLoading}
-      className={`grid grid-cols-4 justify-items-stretch gap-y-4 md:gap-x-12 lg:gap-x-20 ${isLoading ? "md:gap-y-12" : "md:gap-y-14"}`}
+      className="grid grid-cols-4 justify-items-stretch gap-y-4 md:gap-x-12 md:gap-y-14 lg:gap-x-20"
     >
       <ServiceGridContent isLoading={isLoading} tiles={tiles} />
     </div>

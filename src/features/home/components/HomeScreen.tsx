@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { redirect, useRouter } from "next/navigation";
 import { usePageScrollController } from "@/features/appShell/public";
 import { useAuthSession } from "@/features/auth/public";
 import { HomeContent } from "@/features/home/components/HomeContent";
 import { HomePageLayout } from "@/features/home/components/HomePageLayout";
+import { HomePageSkeleton } from "@/features/home/components/HomePageSkeleton";
 import { useHomeData } from "@/features/home/hooks/useHomeData";
 import { APP_ROUTES } from "@/shared/constants/routes";
 
@@ -19,15 +19,8 @@ export function HomeScreen() {
     router.push(APP_ROUTES.services);
   };
 
-  useEffect(() => {
-    if (!sessionLoading && !authenticated) {
-      router.replace(APP_ROUTES.loginToHome);
-    }
-  }, [authenticated, router, sessionLoading]);
-
-  if (sessionLoading || !authenticated) {
-    return null;
-  }
+  if (sessionLoading) return <HomePageSkeleton />;
+  if (!authenticated) redirect(APP_ROUTES.loginToHome);
 
   return (
     <HomePageLayout

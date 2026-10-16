@@ -2,8 +2,8 @@
 
 import { Input } from "antd";
 import { SearchNormal1 } from "iconsax-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { redirect } from "next/navigation";
+import { useMemo, useState } from "react";
 import { NestedPageLayout } from "@/features/appShell/public";
 import { useAuthSession } from "@/features/auth/public";
 import { ServicesGrid } from "@/features/home/components/ServicesGrid";
@@ -11,14 +11,9 @@ import { useHomeData } from "@/features/home/hooks/useHomeData";
 import { APP_ROUTES } from "@/shared/constants/routes";
 
 export function ServicesScreen() {
-  const router = useRouter();
   const { authenticated, loading: sessionLoading } = useAuthSession();
   const { data, error, loading } = useHomeData(authenticated);
   const [query, setQuery] = useState("");
-
-  useEffect(() => {
-    if (!sessionLoading && !authenticated) router.replace(APP_ROUTES.loginToServices);
-  }, [authenticated, router, sessionLoading]);
 
   const tiles = useMemo(() => {
     const normalized = query.trim();
@@ -26,7 +21,8 @@ export function ServicesScreen() {
     return (data?.tiles ?? []).filter((tile) => tile.title.includes(normalized));
   }, [data?.tiles, query]);
 
-  if (sessionLoading || !authenticated) return null;
+  if (sessionLoading) return null;
+  if (!authenticated) redirect(APP_ROUTES.loginToServices);
 
   return (
     <NestedPageLayout
