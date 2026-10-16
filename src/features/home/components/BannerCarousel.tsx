@@ -1,11 +1,16 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import type { Banner } from "@/entities/home/model/types";
 import { BannerCarouselSkeleton } from "@/features/home/components/BannerCarouselSkeleton";
-import { Carousel } from "@/shared/ui/Carousel";
 import { safeAssetSrc, safeHref } from "@/shared/lib/url";
+
+const Carousel = dynamic(
+  () => import("@/shared/ui/Carousel").then((module) => module.Carousel),
+  { loading: () => <BannerCarouselSkeleton /> }
+);
 
 type Props = {
   banners?: Banner[];
